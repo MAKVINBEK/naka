@@ -114,12 +114,12 @@
     }
 
     .mini_block h5{
-        font-size: 12px;
+        font-size: 14px;
         line-height: 1;
     }
 
     .p{
-        font-size: 6px;
+        font-size: 8px;
         line-height: 1;
         margin-top: 4px;
     }
@@ -136,12 +136,12 @@
 
     .mini_block h6{
         line-height: 1.4;
-        font-size: 8px;
+        font-size: 10px;
         font-weight: 500;
     }
 
     .gap h5{
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 700;
     }
 

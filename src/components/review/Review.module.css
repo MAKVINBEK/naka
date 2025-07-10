@@ -233,7 +233,7 @@
     }
 
     .allNews{
-        font-size: 10px;
+        font-size: 12px;
         margin-top: 10px;
     }
 
@@ -273,10 +273,10 @@
     }
 
     .block p{
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 500;
         margin-top: 8px;
-        height: 35px;
+        height: 42px;
     }
 
     .block h6{
