@@ -1,17 +1,17 @@
 import "./assets/Bootsrap.min.css"
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { Home } from './component/home/Home';
 import ScrollToTop from './assets/ScrollTop';
 import { AllReview } from "./component/review/AllReview";
 import { AllNews } from "./component/news/AllNews";
-import { Faq } from "./component/home/acardion/AllFaq";
+import { Faq } from "./component/homes/acardion/AllFaq";
 import { Footer } from "./component/footer/Footer";
 import { Service } from "./component/service/Service";
-import { Exchanger_Two } from "./component/home/exchanger/Exchanger_two";
+import { Exchanger_Two } from "./component/homes/exchanger/Exchanger_two";
 import { DetailNews } from "./component/news/detailNews/Detail";
 import { Rules } from "./component/ rules/Rules";
 import { Contacts } from "./component/contacts/Contacts";
+import { Home } from "./component/homes/Home";
 
 function App() {
   const location = useLocation();
