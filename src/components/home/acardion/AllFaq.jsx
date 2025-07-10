@@ -4,9 +4,11 @@ import css from "./Acardion.module.css";
 import { accordionData } from "./Faq";
 import { Header } from "../../header/Header";
 import { IoIosArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 
 export const Faq = () => {
+  const navigate = useNavigate()
   return (
     <div>
         <Header/>
