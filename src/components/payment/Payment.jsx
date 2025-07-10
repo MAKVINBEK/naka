@@ -4,7 +4,7 @@ import { PiWarningBold } from "react-icons/pi";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuCheck } from "react-icons/lu";
-import bitcoin from "../../img/svg/Bitcoin.svg"
+import bitcoin from "../../img/svg/bitcoin.svg"
 import sber from "../../img/svg/sber.svg"
 import { Link } from "react-router-dom";
 import Modal from "../../assets/Modal";
