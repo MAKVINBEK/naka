@@ -1,0 +1,101 @@
+.content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 30px;
+    margin-top: 40px;
+}
+
+.block1{
+    background: #F5F7FA;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.phone_number{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.addres {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.addres p{
+    color: #131313;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.addres span {
+    font-size: 20px;
+    color: #03A39E;
+}
+
+.tel{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tel a{
+    text-decoration: none;
+    color: #131313;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.logos{
+    margin-top: 20px;
+    display: flex;
+    gap: 14px;
+}
+
+.divk{
+    min-width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #03A39E;
+    cursor: pointer;
+}
+
+.img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img img{
+    width: 420px;
+    height: 165px;
+}
+
+
+@media (max-width:767px){
+    
+  }
+
+  @media(max-width:575px){
+
+   
+  }
+
+
+  
+
+
+
+
+
+
+

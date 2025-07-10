@@ -1,0 +1,232 @@
+.parent {
+    background: linear-gradient(180deg, #000000 0%, #162F40 100%);
+
+@supports (color: color(display-p3 1 1 1)) {
+  background: linear-gradient(
+    180deg,
+    color(display-p3 0.000 0.000 0.000) 0%,
+    color(display-p3 0.110 0.180 0.243) 100%
+  );
+}
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 20px;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    width: 122px;
+    height: 44px;
+}
+
+.click{
+    width: 450px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    background-color: #03A39E;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.menu{
+    display: flex;
+    margin-top: 77px;
+}
+
+.block_one{
+    width: 325px;
+}
+
+.block_one p{
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 30px;
+    line-height: 130%;
+}
+
+.block_one a{
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #03A39E;
+}
+
+.block_navigate{
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    margin-left: 18%;
+}
+
+.block_navigate h4{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.block_navigate a{
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-decoration: none;
+}
+
+.crypts{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.crypts h4{
+    font-size: 20px;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 16px 26px;
+    margin-top: 30px;
+}
+
+.block{
+    border: 1px solid #1D2734;
+    border-radius: 16px;
+    padding: 10px 17px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.block img{
+    width: 24px;
+    height: 24px;
+}
+
+.block p{
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.left{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.left div{
+    background-color: #03A39E33;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;align-items: center;justify-content: center;
+}
+
+.store{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.store button{
+    padding: 7px 20px;
+    background-color: #03A39E1A;
+    border: 1px solid #03A39E;
+    border-radius: 12px;
+}
+
+@media(max-width:991px){
+   .grid{
+    grid-template-columns: repeat(4,1fr);
+   }
+}
+
+@media(max-width:767px){
+    .parent{
+        padding-top: 40px;
+    }
+
+    .flex{
+        align-items: start;
+        gap: 10px;
+    }
+    
+    .menu{
+        flex-wrap: wrap;
+        margin-top: 40px;
+        gap: 23px;
+    }
+
+    .fd{
+        flex-direction: column;
+    }
+
+    .block_one{
+        width: 100%;
+    }
+
+    .block_one p{
+        margin-bottom: 25px;
+    }
+
+    .oo{
+        margin-left: 0;
+    }
+
+    .grid{
+        grid-template-columns: repeat(3,1fr);
+       }
+}
+
+@media(max-width:575px){
+    .parent{
+        margin-top: 23px;
+    }
+
+    .click{
+        width: 100%;
+    }
+
+    .menu{
+        margin-top: 20px;
+    }
+
+    .block_one p{
+        margin-bottom: 20px;
+    }
+
+    .grid{
+        grid-template-columns: repeat(2,1fr);
+        margin-top: 15px;
+       }
+
+       .flex{
+        flex-direction: column-reverse;
+       }
+
+       .fd{
+        flex-direction: column !important;
+       }
+
+       .block_navigate{
+        margin-left: 10px;
+       }
+
+       .oo{
+        margin: 0;
+       }
+
+       .crypts{
+        margin: 20px 0;
+        
+       }
+}

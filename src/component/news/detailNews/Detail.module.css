@@ -1,0 +1,172 @@
+
+
+.list {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.next {
+    font-size: 30px;
+    color: #141416;
+    margin-top: 70px;
+    margin-left: 5px;
+}
+
+.details h2 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 112%;
+    color: #1c1c1c;
+}
+
+.details h6 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 112%;
+    color: #9A9A9A;
+    margin: 16px 0;
+    display: flex;
+    gap: 30px;
+}
+
+.img img{
+    border-radius: 14px;
+    width: 100%;
+    max-height: 550px;
+}
+
+.details p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 130%;
+    color: #313131;
+    margin-top: 16px;
+}
+
+.details h3 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 112%;
+    color: #1c1c1c;
+    margin-top: 40px;
+}
+
+.yeshe{
+    display: none;
+}
+
+.newsList{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.image img{
+    width: 100%;
+    max-height: 250px;
+    border-radius: 14px;
+}
+
+.block h3 {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 112%;
+    text-decoration: underline;
+    color: #1856CD;
+    margin-top: 16px;
+}
+
+.block p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    color: #313131;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.flex h6 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #8C8C8C;
+}
+
+.flex a {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1856CD;
+}
+
+@media(max-width:991px){
+    .list{
+        grid-template-columns: 1fr;
+    }
+
+    .yeshe{
+        display: block;
+        font-weight: 700;
+    font-size: 24px;
+    line-height: 112%;
+    color: #1c1c1c;
+    }
+
+    .newsList{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width:767px){
+    .next{
+        margin-top: 40px;
+    }
+    .newsList{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:575px){
+    .next{
+        margin-top: 20px;
+        font-size: 24px;
+    }
+
+   .details h2{
+    font-size: 24px;
+   }
+}
+
+@media(max-width:493px){
+    .list{
+        margin-top: 20px;
+    }
+
+    .details h2{
+        font-size: 20px;
+    }
+
+    .details h6{
+        margin-bottom: 30px;
+    }
+    
+    .details h3{
+        font-size: 20px;
+        margin-top: 50px;
+    }
+
+    .yeshe{
+        font-size: 20px;
+    }
+}

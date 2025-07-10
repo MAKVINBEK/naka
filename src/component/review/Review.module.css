@@ -1,0 +1,292 @@
+.content{
+    width: 100%;
+    height: 100%;
+    background-color: #FBFAF9;
+}
+
+.parent {
+    padding: 60px 0;
+    width: 100%;
+    background-color: #FBFAF9;
+}
+
+.h2 {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.parents {
+    margin-top: 40px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 80px;
+}
+
+.allNews {
+    justify-content: end;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000000;
+}
+
+.arrow{
+    font-size: 24px;
+}
+
+.arrows {
+    border-radius: 15px;
+    background: #03A39E;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 450px;
+    height: 50px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 10px;
+}
+
+.block {
+    border-radius: 15px;
+    padding: 15px 15px 30px 15px;
+    background-color: #ffffff;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.image {
+    background: #F5F7FA;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name h4 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.star {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 5px;
+    color: #FFB000;
+    font-size: 14px;
+}
+
+.block p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #313131;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 12px;
+    height: 58px;
+}
+
+.block h6 {
+    font-size: 12px;
+    font-weight:700;
+    color: #6f6f6f;
+    margin-top: 11px;
+}
+
+.review {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    border-radius: 15px;
+    background-color: #03A39E;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-left: auto;
+    max-width: 450px;
+    width: 100%;
+    height: 50px;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.review:hover {
+    transform: scale(1.02) translateX(-50%) translateX(1%);
+}
+
+
+
+
+
+
+.modal_title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.modal_subtitle {
+    text-align: right;
+    font-size: 14px;
+    font-weight: 400;
+    color: #9A9A9A;
+    margin-bottom: 10px;
+}
+
+.modal_textarea {
+    max-width: 816px;
+    width: 100%;
+    height: 200px;
+    background: #F5F7FA;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    resize: none;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.modal_button {
+    width: 100%;
+    height: 50px;
+    background: #03A39E;
+    color: white;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media(max-width:991px){
+    .list{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:767px){
+    .h2{
+        font-size: 30px;
+    }
+
+    .parents{
+        margin-top: 20px;
+    }
+
+    .h22{
+        display: none;
+    }
+
+    .title{
+        align-items: start;
+        gap: 20px;
+    }
+
+    .arrown{
+       font-size: 24px;
+       transform: rotate(180deg);
+       color: #9a9a9a;
+    }
+
+    .list{
+        gap: 10px;
+    }
+}
+
+@media(max-width:575px){
+    .parent{
+        padding-top: 20px;
+        padding-bottom: 27px;
+    }
+
+    .h2{
+        font-size: 20px;
+    }
+
+    .allNews{
+        font-size: 10px;
+        margin-top: 10px;
+    }
+
+    .arrow{
+        font-size: 14px !important;
+    }
+
+    .title{
+        margin-bottom: 20px;
+        flex-direction: column;
+    }
+
+    .arrows{
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .list{
+        gap: 6px;
+    }
+
+    .block{
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .name{
+        gap: 7px;
+    }
+
+    .name h4{
+        font-size: 14px;
+    }
+
+    .star{
+        margin-top: 2px;
+    }
+
+    .block p{
+        font-size: 10px;
+        font-weight: 500;
+        margin-top: 8px;
+        height: 35px;
+    }
+
+    .block h6{
+        font-size: 8px;
+        margin-top: 8px;
+    }
+
+    .review{
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+}
