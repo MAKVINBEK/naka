@@ -2,22 +2,22 @@ import "./assets/Bootsrap.min.css"
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import ScrollToTop from './assets/ScrollTop';
-import { AllReview } from "./component/review/AllReview";
-import { AllNews } from "./component/news/AllNews";
-import { Faq } from "./component/homes/acardion/AllFaq";
-import { Footer } from "./component/footer/Footer";
-import { Service } from "./component/service/Service";
-import { Exchanger_Two } from "./component/homes/exchanger/Exchanger_two";
-import { DetailNews } from "./component/news/detailNews/Detail";
-import { Rules } from "./component/ rules/Rules";
-import { Contacts } from "./component/contacts/Contacts";
-import { Home } from "./component/homes/Home";
+import { AllReview } from "./components/review/AllReview";
+import { AllNews } from "./components/news/AllNews";
+import { Faq } from "./components/home/acardion/AllFaq";
+import { Footer } from "./components/footer/Footer";
+import { Service } from "./components/service/Service";
+import { Exchanger_Two } from "./components/home/exchanger/Exchanger_two";
+import { DetailNews } from "./components/news/detailNews/Detail";
+import { Rules } from "./components/ rules/Rules";
+import { Contacts } from "./components/contacts/Contacts";
+import { Home } from "./components/home/Home";
 
 function App() {
   const location = useLocation();
   const hideHeaderRoutes = ['/exchanger002'];
   return (
-    
+
     <>
       <div>
         <ScrollToTop/>
