@@ -78,7 +78,7 @@ export const Exchenger = () => {
                             </a>
                         </span>
                     </label>
-                    <button className={css.submit}>Далее</button>
+                    <Link to="/payment_step" className={css.submit}>Далее</Link>
 
                     <div className={css.promo}>
                         <img src={promocod} alt="icon" />

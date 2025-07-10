@@ -12,10 +12,11 @@ import { DetailNews } from "./components/news/detailNews/Detail";
 import { Rules } from "./components/ rules/Rules";
 import { Contacts } from "./components/contacts/Contacts";
 import { Home } from "./components/home/Home";
+import { PaymentStep } from "./components/payment/Payment";
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ['/exchanger002'];
+  const hideHeaderRoutes = ['/exchanger002','/payment_step'];
   return (
 
     <>
@@ -31,6 +32,7 @@ function App() {
             <Route path='/exchanger002' element={<Exchanger_Two/>}/>
             <Route path='/exchange_rules' element={<Rules/>}/>
             <Route path='/contacts' element={<Contacts/>}/>
+            <Route path='/payment_step' element={<PaymentStep/>}/>
           </Routes>
           {!hideHeaderRoutes.includes(location.pathname) && <Footer />}
       </div>

@@ -10,6 +10,8 @@ import google from "../../img/svg/googleplys.svg"
 import apple from "../../img/svg/apple.svg"
 
 
+
+
 const cryptoList = [
     "Buy Bitcoin",
     "Buy Helium",
