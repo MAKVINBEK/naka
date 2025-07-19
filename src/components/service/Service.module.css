@@ -27,6 +27,7 @@
 
 .top{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 104px;
@@ -76,4 +77,126 @@
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 20px;
+}
+
+.block{
+    display: none;
+}
+
+@media(max-width:991px){
+    .none{
+        display: none;
+    }
+
+    .block{
+        display: block;
+    }
+
+    .flexx{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: -20px;
+    }
+
+    .flexx img{
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 100%;
+    }
+
+    .flex{
+        margin-top: 35px;
+    }
+
+}
+
+@media(max-width:767px){
+    .text h2{
+        font-size: 30px;
+    }
+
+    .h2{
+        font-size: 30px;
+    }
+
+    .top_block h4{
+        font-size: 24px;
+    }
+
+    .top_two{
+        margin-top: 70px;
+    }
+
+    .top{
+        gap: 60px;
+    }
+    
+}
+
+@media(max-width:525px){
+    .text h2{
+        font-size: 20px;
+    }
+
+    .h2{
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .top_block h4{
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .top_two{
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+
+    .title{
+        font-size: 16px;
+    }
+
+    .flex{
+        margin-top: 30px;
+    }
+
+    .top{
+        gap: 30px 50px;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-left: 15px;
+        margin-top: 20px;
+    }
+
+    .list{
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .list_block{
+        border-radius: 15px;
+    }
+
+    .list_block h4{
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .flexx img{
+        width: 141px;
+        height: 141px;
+        margin-bottom: 10px;
+    }
+
+    .parent{
+        margin-bottom: 20px;
+    }
+
+    .flexx h4{
+        font-size: 18px;
+    }
 }

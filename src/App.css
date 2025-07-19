@@ -1,7 +1,7 @@
 
 @font-face {
   font-family: "Inter";
-  src: url(./assets/fonts/Inter-Italic-VariableFont_opsz\,wght.ttf);
+  src: url(./assets/fonts/Inter-VariableFont_opsz\,wght.ttf);
 }
 
 * {
@@ -47,7 +47,6 @@ height: 100%;
   background: white;
   border-radius: 16px;
   padding: 20px;
-  width: 100%;
   position: relative;
 }
 

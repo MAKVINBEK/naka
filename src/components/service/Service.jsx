@@ -16,7 +16,7 @@ export const Service = () => {
                         <p className={css.title}>SafelyChange - электронный
                             обменный сервис. Любая обменная операция на сайте проводится в полностью автоматическом режиме, что гарантирует клиенту моментальное получение средств на электронный кошелек или карту</p>
                     </div>
-                    <img src={image1} alt="image" />
+                    <img className={css.none} src={image1} alt="image" />
                 </div>
 
                 <div className={css.top}>
@@ -64,24 +64,33 @@ export const Service = () => {
                     <h2 className={css.h2}>преимущества</h2>
 
                     <div className={css.flex}>
-                        <img src={image2} alt="image" />
+                        <img className={css.none} src={image2} alt="image" />
                         <div className={css.text}>
+                            <div className={css.flexx}>
+                            <img className={css.block} src={image2} alt="icon" />
                             <h4>Мгновенный вывод средств</h4>
-                            <p className={css.title}>SafelyChange обеспечивает быстрый вывод электронных валют на карты Visa и MasterCard. Операции выполняются автоматически, а клиенты получают СМС-уведомления о зачислении средств почти мгновенно. У нас собственный сертифицированный процессинг, соответствующий стандарту PCI DSS.</p>
+                            </div>
+                            <p className={css.title+" "+css.ttl}>SafelyChange обеспечивает быстрый вывод электронных валют на карты Visa и MasterCard. Операции выполняются автоматически, а клиенты получают СМС-уведомления о зачислении средств почти мгновенно. У нас собственный сертифицированный процессинг, соответствующий стандарту PCI DSS.</p>
                         </div>
                     </div>
                     <div className={css.flex}>
                         <div className={css.text}>
-                            <h4>Круглосуточная надежность</h4>
-                            <p className={css.title}>SafelyChange — стабильная и круглосуточная работа сервиса.  Мы обрабатываем большой объём обменов без перебоев благодаря мощной инфраструктуре и облачным решениям Microsoft. Это позволяет нам обеспечивать надёжную работу 24/7.</p>
+                            <div className={css.flexx}>
+                            <img className={css.block} src={image3} alt="icon" />
+                                <h4>Круглосуточная надежность</h4>
+                            </div>
+                            <p className={css.title+" "+css.ttl}>SafelyChange — стабильная и круглосуточная работа сервиса. Мы обрабатываем большой объём обменов без перебоев благодаря мощной инфраструктуре и облачным решениям Microsoft. Это позволяет нам обеспечивать надёжную работу 24/7.</p>
                         </div>
-                        <img src={image3} alt="image" />
+                        <img className={css.none} src={image3} alt="image" />
                     </div>
                     <div className={css.flex}>
-                        <img src={image4} alt="image" />
+                        <img className={css.none} src={image4} alt="image" />
                         <div className={css.text}>
-                            <h4>Автоматизация и Выгода </h4> 
-                            <p className={css.title}>Лучшие курсы благодаря автоматизации.  Наш торговый робот Niagara анализирует курсы конкурентов каждую секунду и автоматически предлагает клиентам самые выгодные условия. Это серьёзное преимущество SafelyChange перед ручными обменниками.</p>
+                            <div className={css.flexx}>
+                                <img className={css.block} src={image4} alt="icon" />
+                                 <h4>Автоматизация и Выгода </h4> 
+                            </div>
+                            <p className={css.title+" "+css.ttl}>Лучшие курсы благодаря автоматизации. Наш торговый робот Niagara анализирует курсы конкурентов каждую секунду и автоматически предлагает клиентам самые выгодные условия. Это серьёзное преимущество SafelyChange перед ручными обменниками.</p>
                         </div>
                     </div>
                 </div>

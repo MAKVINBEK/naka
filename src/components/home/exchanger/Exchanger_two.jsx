@@ -1,19 +1,11 @@
 import css from "./Exchenger.module.css"
-import question from "../../../img/svg/question.svg"
 import bitcoin from "../../../img/svg/bitcoin.svg"
 import sber from "../../../img/svg/sber.svg"
-import { IoIosArrowDown } from "react-icons/io";
-import promocod from "../../../img/svg/promocod.svg"
 import { useState } from "react";
-import ReactDOM from "react-dom";
 import { IoSearch } from "react-icons/io5";
 import mir from "../../../img/svg//mir.svg"
 import mc from "../../../img/svg//mc.svg"
 import tinkov from "../../../img/svg/tinkov.svg"
-import { Slider } from "../slider/Slider";
-import { Header } from "../../header/Header";
-import ellipse from "../../../img/ellipse.png"
-import { Exchenger } from "./Exchenger";
 import { Link } from "react-router-dom";
 
 const fakeData = [
@@ -50,11 +42,6 @@ export const Exchanger_Two = () => {
     );
 
     return (
-        <div className="bggradient">
-            <Header />
-            <div className={css.fly}></div>
-            <img src={ellipse} className="absolutebg" />
-            <div className={`${css.parent} container`}>
 
                 <div className={css.modal_overlay}>
                     <div className={css.blockOne}>
@@ -94,14 +81,7 @@ export const Exchanger_Two = () => {
 
                         <Link to="/" className={css.submit} >Далее</Link>
                     </div>
-                </div>,
-
-
-
-
-            </div>
-            <Slider />
-        </div>
+                </div>
 
     )
 }

@@ -3,6 +3,14 @@
     padding-top: 50px;
 }
 
+.parenttt{
+    width: 100%;
+    padding: 28px 0;
+    background-color: #0B1821;
+    position: relative;
+    z-index: 10;
+}
+
 .content {
     display: flex;
     align-items: center;
@@ -164,7 +172,7 @@
 
     .blur {
         transition: 0.3s ease;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
@@ -204,6 +212,7 @@ linear-gradient(180deg, color(display-p3 0.000 0.000 0.000) 0%, color(display-p3
         height: 100%;
         min-height: 100vh;
         top: 0;
+        bottom: 0;
         right: -100%;
         z-index: 10;
         transition: .3s ease;
@@ -239,9 +248,13 @@ linear-gradient(180deg, color(display-p3 0.000 0.000 0.000) 0%, color(display-p3
     }
 }
 
-@media(max-width:767px){
+@media(max-width:786px){
+    .parenttt{
+        padding: 20px 0;
+    }
+}
 
-    .content
+@media(max-width:767px){
 
     .blockOne{
         gap: 10px;
@@ -280,6 +293,10 @@ linear-gradient(180deg, color(display-p3 0.000 0.000 0.000) 0%, color(display-p3
 
     .parent {
         padding-top: 20px;
+    }
+
+    .parenttt{
+        padding: 10px 0;
     }
 
     .logo img {

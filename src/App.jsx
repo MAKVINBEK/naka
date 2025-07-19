@@ -13,10 +13,14 @@ import { Rules } from "./components/ rules/Rules";
 import { Contacts } from "./components/contacts/Contacts";
 import { Home } from "./components/home/Home";
 import { PaymentStep } from "./components/payment/Payment";
+import { Register } from "./components/register/Register";
+import Profile from "./components/profiles/profile/Profil";
+import Aplications from "./components/profiles/applications/Applications";
+import History from "./components/profiles/history/History";
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ['/exchanger002','/payment_step'];
+  const hideHeaderRoutes = ['/exchanger002','/payment_step','/registration','/profile','/applications','/operations'];
   return (
 
     <>
@@ -33,6 +37,10 @@ function App() {
             <Route path='/exchange_rules' element={<Rules/>}/>
             <Route path='/contacts' element={<Contacts/>}/>
             <Route path='/payment_step' element={<PaymentStep/>}/>
+            <Route path='/registration' element={<Register/>}/>
+            <Route path='/operations' element={<History/>}/>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/applications" element={<Aplications />} />
           </Routes>
           {!hideHeaderRoutes.includes(location.pathname) && <Footer />}
       </div>

@@ -1,11 +1,11 @@
-import css from "./Header.module.css"
+import css from "../header/Header.module.css"
 import logo from "../../img/svg/favicon.svg"
 import { Link, useLocation } from "react-router-dom"
 import flagRU from "../../img/svg/RU.svg"
 import { IoIosArrowDown } from "react-icons/io";
 import { useEffect, useRef, useState } from "react"
 import { Squash as Hamburger } from 'hamburger-react'
-export const Header = () => {
+export const Header_Profile = () => {
 
     const [language, setLanguage] = useState(false)
     const menuRef = useRef(null);
@@ -86,7 +86,7 @@ export const Header = () => {
     }, [open]);
 
     return (
-        <div className={css.parent}>
+        <div className={css.parenttt}>
             <div className={`${css.content} container`}>
                 <Link to="/" className={css.logo}><img src={logo} alt="logo" /></Link>
                 <div className={open ? css.blur : ""}>
@@ -142,7 +142,7 @@ export const Header = () => {
                             </div>
                         }
                     </div>
-                    <Link to="/profile" className={`${css.acount} ${Entrance()}`}> Войти</Link>
+                    <Link to="/login" className={`${css.acount} ${Entrance()}`}> Войти</Link>
                 </div>
 
                 <div className={`${css.burger} ${Burgerr()}`} onClick={() => setOpen(!open)}>

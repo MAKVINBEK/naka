@@ -104,7 +104,7 @@
     margin-top: -4px;
 }
 
-.tip_coin a {
+.tip_coin button {
     border: none;
     background: none;
     color: #9a9a9a;
@@ -175,8 +175,6 @@
     transition: 0.4s;
     border-radius: 50%;
 }
-
-
 
 .switch input:checked+.slider::before {
     transform: translateX(16px);
@@ -263,13 +261,6 @@
     -webkit-text-fill-color: transparent;
 }
 
-
-
-
-.fly{
-    height: 550px;
-}
-
 .blockOne {
     background-color: #ffffff;
     border-radius: 15px;
@@ -317,8 +308,13 @@
     border: none;
     font-size: 14px;
     font-weight: 500;
-    transition: 0.3s ease;
+    transition: 0.2s ease;
     cursor: pointer;
+}
+
+.click:hover{
+    background: #03A39E;
+    color: #ffffff;
 }
 
 .activeClick{
@@ -346,9 +342,15 @@
 
 .block{
     display: flex;align-items: center;justify-content: space-between;
-    border-radius: 8px;
+    border-radius: 15px;
     height: 60px;
     padding: 19px 13px;
+    border: 1px solid transparent
+}
+
+.block:hover{
+    background: #03A39E26;
+    border: 1px solid #03A39E
 }
 
 .name{
@@ -368,12 +370,12 @@
     font-size: 12px;
 }
 
-.blockOne>a{
+.blockOne>button{
     margin: 0;
 }
 
 .modal_overlay {
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: #00000080;
     display: flex;
@@ -381,7 +383,6 @@
     align-items: center;
     z-index: 1000;
     height: 100%;
-    padding: 0 15px;
   }
 
   @media(max-width:575px){
