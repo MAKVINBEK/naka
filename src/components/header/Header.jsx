@@ -122,7 +122,7 @@ export const Header = () => {
                             ))}
                             <div className={css.line} style={lineStyle} />
                         </div>
-                        <Link to="/login" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Войти</Link>
+                        <Link to="/profile" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Войти</Link>
                     </div>
                 </div>
 
