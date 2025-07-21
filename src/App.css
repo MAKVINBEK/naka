@@ -4,6 +4,40 @@
   src: url(./assets/fonts/Inter-VariableFont_opsz\,wght.ttf);
 }
 
+:root {
+  /* Основные цвета фона и текста */
+  --color-bg-dark: #050D11;
+  --color-bg-block: #09131B;
+  --color-bg-modal-overlay: #00000066;
+  --color-bg-light: #E4E7F1;
+  --color-white: #ffffff;
+
+  /* Акцентные цвета */
+  --color-accent-red: #C8102E;
+  --color-accent-red-light: #c8102f69;
+  --color-green: #03A39E;
+  --color-accent-green-transparent: #03A39E80;
+
+  /* Текстовые цвета */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #85888E;
+  --color-text-placeholder: #34373D;
+  --color-text-muted: #9a9a9a;
+  --color-text-lightgray: #6F6F6F;
+  --color-text-darkgray: #313131;
+
+  /* Границы */
+  --color-border: #1A1E20;
+  --color-border-light: #66686A33;
+  --color-border-gray: #373A41;
+  --color-border-darkgray: #313131;
+}
+
+
+
+
+
+
 * {
   margin: 0;
   padding: 0;

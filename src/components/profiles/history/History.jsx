@@ -17,7 +17,6 @@ const History = () => {
         if (status === 'error') return error;
         return pending;
     };
-
     const [close,setClose]= useState(false)
 
     return (
