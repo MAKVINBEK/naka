@@ -1,14 +1,18 @@
-.parent {
-    width: 100%;
-    padding-top: 50px;
-}
 
 .parenttt{
     width: 100%;
     padding: 28px 0;
-    background-color: #0B1821;
+    padding-right: 40px;
+    background-color: var(--color-dark-bg);
     position: relative;
     z-index: 10;
+}
+
+.darkmode{
+    position: absolute;
+    right:30px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .content {
@@ -54,7 +58,7 @@
 .menu_item {
     position: relative;
     text-decoration: none;
-    color: #ffffff;
+    color: var(--color-ffffff);
     font-size: 16px;
     font-weight: 700;
     padding: 10px 0;
@@ -95,7 +99,7 @@
     padding: 10px 14px;
     border: none;
     border-radius: 15px;
-    background: #1C2B38;
+    background: var(--color-bkck);
     display: flex;
     align-items: center;
     gap: 7px;
@@ -149,7 +153,7 @@
     padding: 0 20px;
     height: 44px;
     border-radius: 12px;
-    background-color: #1C2B38;
+    background-color: var(--color-bkck);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -195,7 +199,7 @@
 
     .burger {
         display: block;
-        color: #ffffff;
+        color: var(--color-white);
     }
 
     .burgerr{
@@ -253,6 +257,7 @@ linear-gradient(180deg, color(display-p3 0.000 0.000 0.000) 0%, color(display-p3
 @media(max-width:786px){
     .parenttt{
         padding: 20px 0;
+        padding-right: 20px;
     }
 }
 
@@ -297,8 +302,13 @@ linear-gradient(180deg, color(display-p3 0.000 0.000 0.000) 0%, color(display-p3
         padding-top: 20px;
     }
 
+    .darkmode{
+        right: 12px;
+    }
+
     .parenttt{
         padding: 10px 0;
+        padding-right: 50px;
     }
 
     .logo img {

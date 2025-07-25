@@ -13,14 +13,17 @@ import { Rules } from "./components/ rules/Rules";
 import { Contacts } from "./components/contacts/Contacts";
 import { Home } from "./components/home/Home";
 import { PaymentStep } from "./components/payment/Payment";
-import { Register } from "./components/register/Register";
+import { Register } from "./components/loginpersonalprofile/register/Register";
 import Profile from "./components/profiles/profile/Profil";
 import Aplications from "./components/profiles/applications/Applications";
 import History from "./components/profiles/history/History";
+import { Login } from "./components/loginpersonalprofile/Login";
+import { Forgot_Password } from "./components/loginpersonalprofile/Forgot_Password";
+import { New_Password } from "./components/loginpersonalprofile/New_Password";
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ['/exchanger002','/payment_step','/registration','/profile','/applications','/operations'];
+  const hideHeaderRoutes = ['/exchanger002','/payment_step','/registration','/profile','/applications','/operations','/login','/forgot_your_password','/new_password'];
   return (
 
     <>
@@ -38,6 +41,9 @@ function App() {
             <Route path='/contacts' element={<Contacts/>}/>
             <Route path='/payment_step' element={<PaymentStep/>}/>
             <Route path='/registration' element={<Register/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path="/forgot_your_password" element={<Forgot_Password />} />
+            <Route path="/new_password" element={<New_Password />} />
             <Route path='/operations' element={<History/>}/>
             <Route path="/profile" element={<Profile />} />
             <Route path="/applications" element={<Aplications />} />

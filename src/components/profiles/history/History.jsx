@@ -1,4 +1,4 @@
-import { Header_Profile } from '../Header_Profile';
+import { Header_Profile } from '../profile/header_profile/Header_Profile';
 import css from '../profile/Profile.module.css';
 import Sidebar from '../Sidebar';
 import cs from "../applications/Applications.module.css"

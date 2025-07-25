@@ -5,32 +5,88 @@
 }
 
 :root {
-  /* Основные цвета фона и текста */
+  --color-dark-bg:#0B1821;
   --color-bg-dark: #050D11;
   --color-bg-block: #09131B;
   --color-bg-modal-overlay: #00000066;
   --color-bg-light: #E4E7F1;
   --color-white: #ffffff;
+  --color-whitee: #ffffff;
+  --color-dsr:#172531;
+  --color-ffffff:#ffffff;
 
-  /* Акцентные цвета */
   --color-accent-red: #C8102E;
   --color-accent-red-light: #c8102f69;
   --color-green: #03A39E;
+  --color-green-button: #03A39E;
+  --color-green-border: #03A39E;
   --color-accent-green-transparent: #03A39E80;
 
-  /* Текстовые цвета */
   --color-text-primary: #ffffff;
   --color-text-secondary: #85888E;
   --color-text-placeholder: #34373D;
   --color-text-muted: #9a9a9a;
+  --color-text-mutedd: #9a9a9a;
   --color-text-lightgray: #6F6F6F;
-  --color-text-darkgray: #313131;
+  --color-darkgray: #313131;
+  --color-darkgray-bort: #313131;
+  --color-darkgray-color: #313131;
+  --color-1c2e3e:#ffffff;
+  --color-bkck:#1C2B38;
 
-  /* Границы */
   --color-border: #1A1E20;
   --color-border-light: #66686A33;
   --color-border-gray: #373A41;
-  --color-border-darkgray: #313131;
+
+  --color-icon:#94979c;
+  --color-hover-manu:#22262f;
+  --color-close-icon:#acacac;
+  --color-modal-color:#9f9f9f;
+  --color-dadada:#DADADA;
+  --color-fafafa:#FAFAFA;
+}
+
+
+
+.darkstyle {
+  --color-dark-bg:#FBFBFB;
+  --color-bg-dark: #f2f4f7;
+  --color-bg-block: #ffffff;
+  --color-bg-modal-overlay: #00000066;
+  --color-bg-light: #E4E7F1;
+  --color-white: #344054;
+  --color-whitee: #ffffff;
+  --color-dsr:#f2f4f7;
+  --color-ffffff:#000;
+  --color-1c2e3e:#1c2e3e;
+
+  --color-accent-red: #C8102E;
+  --color-accent-red-light: #c8102f69;
+  --color-green: #03A39E;
+  --color-green-button: #ffffff;
+  --color-green-border: #e4e7ec;
+  --color-accent-green-transparent: #03A39E80;
+
+  --color-text-secondary: #85888e;
+  --color-text-placeholder: #85888e;
+  --color-text-muted: #9a9a9a;
+  --color-text-mutedd: #85888e;
+  --color-text-lightgray: #6F6F6F;
+  --color-darkgray: #313131;
+  --color-darkgray-bort: #e4e7ec;
+  --color-darkgray-color: #85888e;
+
+  --color-border: #e4e7ec;
+  --color-border-light: #66686A33;
+  --color-border-gray: #373A41;
+
+  --color-icon:#94979c;
+  --color-hover-manu:#f2f4f7;
+  --color-close-icon:#acacac;
+  --color-modal-color:#9f9f9f;
+  --color-dadada:#344054;
+  --color-fafafa:#344054;
+  --color-bkck:#03A39E;
 }
 
 
@@ -92,4 +148,19 @@ height: 100%;
   border: none;
   color: #ACACAC;
   cursor: pointer;
+}
+
+.daynight{
+  width: 45px;
+  height: 45px;
+  border-radius: 100px;
+  border: none;
+  background: var(--color-dsr);
+  color: var(--color-white);
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+  transition: color 0s ease;
 }

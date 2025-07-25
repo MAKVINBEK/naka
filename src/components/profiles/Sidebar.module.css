@@ -1,6 +1,6 @@
 .sidebar{
-    background-color: #09131B;
-    border: 1px solid #1A1E20;
+    background-color: var(--color-bg-block);
+    border: 1px solid var( --color-border);
     padding: 30px 0px;
     width: 350px;
     display: flex;
@@ -28,7 +28,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #ffffff;
+    color: var(--color-white);
     margin-bottom: 20px;
     margin-left: 50px;
     margin-right: 25px;
@@ -53,9 +53,10 @@
 }
 
 .solid{
-    border: 1px solid #1A1E20;
+    border: 1px solid var(--color-border);
     width: 100%;
     margin-bottom: 10px;
+    transition: 0.3s ease;
 }
 
 .menu{
@@ -66,7 +67,7 @@
 .menu a{
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--color-white);
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -82,31 +83,31 @@
 
 .menu a span{
     font-size: 22px;
-    color: #94979C;
+    color: var(--color-icon);
     display: flex;
     align-items: center;
 }
 
 .menu a:hover{
-    background-color: #22262F !important;
+    background-color: var(--color-hover-manu) !important;
 }
 
 .menu a:hover span{
-    color: #03A39E !important;
+    color: var(--color-green) !important;
 }
 
 .active{
-    background-color: #22262F !important;
+    background-color: var(--color-hover-manu) !important;
 }
 
 .active span{
-    color: #03A39E !important;
+    color: var(--color-green) !important;
 }
 
 .collapse{
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--color-white);
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -124,18 +125,18 @@
 
 .collapse span{
     font-size: 24px;
-    color: #94979C;
+    color: var(--color-icon);
     display: flex;
     align-items: center;
     transition: 0.3s ease;
 }
 
 .collapse:hover{
-    background-color: #22262F !important;
+    background-color: var(--color-hover-manu) !important;
 }
 
 .collapse:hover span{
-    color: #03A39E !important;
+    color: var(--color-green) !important;
 }
 
 .rotate{
@@ -145,7 +146,7 @@
 .overlay {
     position: fixed;
     inset: 0;
-    background-color: #00000066;
+    background-color: var(--color-bg-modal-overlay);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -157,7 +158,7 @@
   
   .modal {
     position: relative;
-    background: #09131B;
+    background: var(--color-bg-block);
     padding: 20px;
     border-radius: 16px;
     max-width: 500px;
@@ -170,14 +171,14 @@
     right: 20px;
     background: none;
     border: none;
-    color: #ACACAC;
+    color: var(--color-close-icon);
     cursor: pointer;
   }
 
   .modal h2{
     font-size: 22px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-white);
     text-align: center;
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -186,7 +187,7 @@
   .modal p{
     font-size: 16px;
     font-weight: 400;
-    color: #9f9f9f;
+    color: var(--color-modal-color);
     margin-bottom: 30px;
     text-align: center;
   }
@@ -200,16 +201,16 @@
   .ff button{
     width: 100%;
     height: 50px;
-    border: 1px solid #313131;
+    border: 1px solid var(--color-darkgray-bort);
     background: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--color-white);
   }
 
   .delete_submit{
-    color: #03A39E !important;
+    color: var(--color-green) !important;
   }
 
   .h2{
@@ -228,7 +229,7 @@
         z-index: 9;
         padding-top: 118px;
         margin-top: -88px;
-        background: #050D11;
+        background: var(--color-bg-dark);
         left: -100%;
     }
 
@@ -240,7 +241,7 @@
         display: block;
         font-size: 20px;
         font-weight: 600;
-        color: #ffffff;
+        color: var(--color-white);
         margin-left: 50px;
         margin-bottom: 20px;
     }
@@ -250,12 +251,12 @@
     }
 
     .menu a{
-        background: #09131B;
-        border: 1px solid #1A1E20;
+        background: var(--color-bg-block);
+        border: 1px solid var(--color-border);
     }
 
     .menu a span{
-        color: #03A39E !important;
+        color: var(--color-green) !important;
     }
 
     .collapse{
@@ -263,13 +264,13 @@
     }
 
     .active{
-        background-color:#09131B !important;
+        background-color:var(--color-bg-block) !important;
     }
 
     .arrow{
         display: block;
         font-size: 24px;
-        color: #9a9a9a;
+        color: var(--color-text-muted);
         margin-left: auto;
     }
     

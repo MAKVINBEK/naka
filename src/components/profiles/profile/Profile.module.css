@@ -47,7 +47,7 @@
     cursor: pointer;
     transition: 0.3s;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 500;
     white-space: nowrap;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .solid {
-    border: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border);
     width: 100%;
     margin-bottom: 20px;
 }
@@ -285,7 +285,7 @@
     border: none;
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-white);
+    color: var(--color-whitee);
 }
 
 .cards {
@@ -322,10 +322,10 @@
     width: 100%;
     height: 45px;
     background-color: var(--color-accent-green-transparent);
-    border: 1px solid var(--color-green);
+    border: 1px solid var(--color-green-border);
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-green);
+    color: var(--color-green-button);
     border-radius: 15px;
     margin-top: auto;
 }
@@ -346,12 +346,14 @@
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 20px;
+    color: var(--color-1c2e3e);
 }
 
 .bezopasnost h5 {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 10px;
+    color: var(--color-1c2e3e);
 }
 
 .bezopasnost p {
@@ -431,7 +433,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #E4E7F1;
+    background-color: var(--color-bg-light);
     transition: 0.4s;
     border-radius: 34px;
 }
@@ -444,7 +446,7 @@
     width: 16px;
     left: 4px;
     bottom: 4px;
-    background-color: #ffffff;
+    background-color: var(--color-whitee);
     transition: 0.4s;
     border-radius: 50%;
 }
@@ -454,7 +456,7 @@
 }
 
 .switch input:checked+.slider {
-    background-color: #03A39E;
+    background-color: var(--color-green);
 }
 
 /* Код Input */
@@ -462,7 +464,7 @@
 .overlay {
     position: fixed;
     inset: 0;
-    background-color: #00000066;
+    background-color: var(--color-bg-modal-overlay);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -473,7 +475,7 @@
 
 .modal {
     position: relative;
-    background: #09131B;
+    background:  var(--color-bg-block);
     padding: 20px 30px;
     border-radius: 16px;
     max-width: 470px;
@@ -484,7 +486,7 @@
     text-align: center;
     font-size: 20px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .text_aligt_left{
@@ -513,7 +515,7 @@
 }
 
 .form_verificate label{
-    color: #ffffff;
+    color: var(--color-white);
     font-size: 16px;
     font-weight: 600;
 }
@@ -525,7 +527,7 @@
 .modal p{
     font-size: 16px;
     font-weight: 400;
-    color: #9a9a9a;
+    color:  var(--color-text-muted);
     margin-bottom: 20px;
     margin-top: 8px;
     text-align: center;
@@ -536,13 +538,13 @@
 }
 
 .eshe_submit {
-    border: 1px solid #313131;
+    border: 1px solid  var(--color-darkgray-bort);
     border-radius: 10px;
     height: 45px;
     background: none;
     font-size: 16px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-white);
     margin-top: 20px;
     padding: 0 18px;
 }
@@ -559,15 +561,15 @@
     font-size: 28px;
     text-align: center;
     border-radius: 10px;
-    border: 0.5px solid #85888E;
+    border: 0.5px solid var(--color-text-secondary);
     background-color: transparent;
-    color: white;
+    color: var(--color-white);
     outline: none;
     transition: border 0.2s;
 }
 
 .input:focus {
-    border-color: #03a39e;
+    border-color: var(--color-green);
 }
 
 .change_password{
@@ -576,7 +578,7 @@
     margin-left: auto;
     font-size: 16px;
     font-weight: 700;
-    color: #313131;
+    color: var(--color-darkgray-color);
 }
 
 .ff {
@@ -590,16 +592,16 @@
 .ff button {
     width: 150px;
     height: 45px;
-    border: 1px solid #313131;
+    border: 1px solid var(--color-darkgray-bort);
     background: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .delete_submit {
-    color: #03A39E !important;
+    color: var(--color-green) !important;
 }
 
 .password_wrapper {
@@ -611,7 +613,7 @@
     display: flex;
     align-items: center;
     padding-right: 40px;
-    border: 1px solid #313131
+    border: 1px solid var(--color-darkgray-bort)
 }
 
 .password_input {
@@ -621,18 +623,18 @@
     background: transparent;
     font-size: 16px;
     outline: none;
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .password_input::placeholder {
-    color: #313131;
+    color: var(--color-darkgray);
 }
 
 .toggle_icon {
     position: absolute;
     right: 15px;
     cursor: pointer;
-    color: #03A39E;
+    color: var(--color-green);
     font-size: 20px;
 }
 
@@ -657,7 +659,7 @@
     .solid_gorizont {
         height: auto;
         width: calc(100% + 40px);
-        border: 1px solid #1A1E20;
+        border: 1px solid var(--color-border);
         transform: translateX(20px);
         margin-left: -40px;
     }
@@ -685,7 +687,6 @@
 
 }
 
-
 @media(max-width:786px) {
 
     .profile {
@@ -701,7 +702,7 @@
         border: none;
         background: none;
         font-size: 24px;
-        color: #9a9a9a;
+        color: var(--color-text-muted);
         margin-bottom: 15px;
     }
 

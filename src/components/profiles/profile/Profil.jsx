@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Header_Profile } from '../Header_Profile';
+import { Header_Profile } from './header_profile/Header_Profile';
 import css from './Profile.module.css';
 import Sidebar from '../Sidebar';
 import user from "../../../img/profile-user.png"
@@ -11,6 +11,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiOutlineMail } from "react-icons/hi";
+import ThemeSwitcher from '../../../assets/ThemeSwither';
 
 
 

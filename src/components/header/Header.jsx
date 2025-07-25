@@ -71,7 +71,10 @@ export const Header = () => {
             locations.pathname.startsWith('/news/')||
             locations.pathname.startsWith('/exchange_rules')||
             locations.pathname.startsWith('/contacts')||
-            locations.pathname.startsWith('/registration')
+            locations.pathname.startsWith('/registration')||
+            locations.pathname.startsWith('/login')||
+            locations.pathname.startsWith('/forgot_your_password')||
+            locations.pathname.startsWith('/new_password')
     };
 ``
     const Alink = () => isRestPage() ? css.menu_item_rest : 'header-default';
@@ -122,7 +125,7 @@ export const Header = () => {
                             ))}
                             <div className={css.line} style={lineStyle} />
                         </div>
-                        <Link to="/profile" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Войти</Link>
+                        <Link to="/profile" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Личный кабенет</Link>
                     </div>
                 </div>
 
@@ -142,7 +145,7 @@ export const Header = () => {
                             </div>
                         }
                     </div>
-                    <Link to="/profile" className={`${css.acount} ${Entrance()}`}> Войти</Link>
+                    <Link to="/profile" className={`${css.acount} ${Entrance()}`}> Личный кабенет</Link>
                 </div>
 
                 <div className={`${css.burger} ${Burgerr()}`} onClick={() => setOpen(!open)}>

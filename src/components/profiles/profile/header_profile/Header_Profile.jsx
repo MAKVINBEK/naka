@@ -1,10 +1,11 @@
-import css from "../header/Header.module.css"
-import logo from "../../img/svg/favicon.svg"
+import css from "./Header_profile.module.css"
+import logo from "../../../../img/svg/favicon.svg"
 import { Link, useLocation } from "react-router-dom"
-import flagRU from "../../img/svg/RU.svg"
+import flagRU from "../../../../img/svg/RU.svg"
 import { IoIosArrowDown } from "react-icons/io";
 import { useEffect, useRef, useState } from "react"
 import { Squash as Hamburger } from 'hamburger-react'
+import ThemeSwitcher from "../../../../assets/ThemeSwither";
 export const Header_Profile = () => {
 
     const [language, setLanguage] = useState(false)
@@ -87,6 +88,7 @@ export const Header_Profile = () => {
 
     return (
         <div className={css.parenttt}>
+            <div className={css.darkmode}><ThemeSwitcher/></div>
             <div className={`${css.content} container`}>
                 <Link to="/" className={css.logo}><img src={logo} alt="logo" /></Link>
                 <div className={open ? css.blur : ""}>
@@ -122,7 +124,7 @@ export const Header_Profile = () => {
                             ))}
                             <div className={css.line} style={lineStyle} />
                         </div>
-                        <Link to="/login" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Войти</Link>
+                        <Link to="/profile" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Личный кабенет</Link>
                     </div>
                 </div>
 
@@ -142,7 +144,7 @@ export const Header_Profile = () => {
                             </div>
                         }
                     </div>
-                    <Link to="/login" className={`${css.acount} ${Entrance()}`}> Войти</Link>
+                    <Link to="/profile" className={`${css.acount} ${Entrance()}`}> Личный кабенет</Link>
                 </div>
 
                 <div className={`${css.burger} ${Burgerr()}`} onClick={() => setOpen(!open)}>
