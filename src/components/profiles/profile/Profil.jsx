@@ -1,17 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Header_Profile } from './header_profile/Header_Profile';
 import css from './Profile.module.css';
 import Sidebar from '../Sidebar';
 import user from "../../../img/profile-user.png"
 import ReactDOM from "react-dom";
-import CodeInput from './CodeInput';
 import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiOutlineMail } from "react-icons/hi";
-import ThemeSwitcher from '../../../assets/ThemeSwither';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ru } from 'date-fns/locale';
+import axios from 'axios';
+import { get, post } from '../../../api/ApiRoutes';
+import { IoClose } from "react-icons/io5";
+import { toast } from 'react-toastify';
+import { TbCopy, TbChecks } from "react-icons/tb";
+
 
 
 
@@ -38,11 +45,6 @@ const Profile = () => {
 
     const [close, setClose] = useState(false)
 
-    const [code, setCode] = useState("+966");
-    const [number, setNumber] = useState("");
-
-    const confirm = number.length === 0 ? css.noConfirm : css.confirm;
-
     const [verificate, setVerificate] = useState(false)
 
     const [changePassword, setChangePassword] = useState(false)
@@ -50,6 +52,310 @@ const Profile = () => {
     const [changeInput, setChangeInput] = useState(false)
 
 
+    const [surname, setSurname] = useState("");
+    const [name, setName] = useState("");
+    const [patronymic, setPatronymic] = useState("");
+    const [startDate, setStartDate] = useState(null);
+    const [country, setCountry] = useState("");
+    const [codes, setCode] = useState("+996");
+    const [number, setNumber] = useState("");
+
+    const confirm = number.length === 0 ? css.noConfirm : css.confirm;
+
+    const [redirectUrl, setRedirectUrl] = useState("http://localhost:5173/profile")
+
+    const [info, setInfo] = useState([])
+    const CODE_LENGTH = 6;
+    const [authentication, setAuthentication] = useState(false)
+    const [values, setValues] = useState(Array(CODE_LENGTH).fill(""));
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [confirmError, setConfirmError] = useState("");
+    const inputsRef = useRef([]);
+    const [qrImage, setQrImage] = useState('')
+    const [secretKey, setSecretKey] = useState('')
+    const [copied, setCopied] = useState(false);
+    const [cood, setCood] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            first_name: name,
+            last_name: surname,
+            surname: patronymic,
+            phone: `${code}${number}`,
+            birth_date: startDate ? startDate.toISOString().split("T")[0] : null,
+            country,
+        };
+
+        try {
+            const token = localStorage.getItem("access");
+
+            const res = await axios.post(
+                "https://nako.navisdevs.ru/api/auth/personal-info/",
+                payload,
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            console.log("✅ Успешно:", res.data);
+            setName("");
+            setSurname("");
+            setPatronymic("");
+            setStartDate(null);
+            setCountry("Кыргызстан");
+            setCode("+996");
+            setNumber("");
+        } catch (err) {
+            console.error("❌ Ошибка:", err.response?.data || err.message);
+        }
+    };
+
+
+    const requestPhoneCode = async () => {
+        const fullPhone = `${codes}${number}`;
+
+
+        try {
+            const token = localStorage.getItem("access");
+            const response = await axios.post(
+                "https://nako.navisdevs.ru/api/auth/profile/request-phone-code/",
+                { phone: fullPhone },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setAuthentication(true);
+        } catch (error) {
+            console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
+        }
+    };
+
+    const handleVerificate = async (e) => {
+        try {
+            const token = localStorage.getItem("access");
+
+            const res = await axios.post(
+                "https://nako.navisdevs.ru/api/auth/kyc-verification/",
+                { redirect_url: redirectUrl }, // например: window.location.origin
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            console.log("✅ Успешно:", res.data);
+
+            // ⏩ Перенаправляем пользователя на полученный URL
+            const formUrl = res.data?.form_url;
+            if (formUrl) {
+                window.location.href = formUrl;
+            } else {
+                console.error("❌ form_url отсутствует в ответе");
+            }
+
+        } catch (err) {
+            console.error("❌ Ошибка:", err.response?.data || err.message);
+        }
+    };
+
+
+    useEffect(() => {
+        const fetchInfo = async () => {
+            try {
+                const data = await get.personalInfo();
+                setInfo(data)
+            } catch (err) {
+                if (err.status === 401) {
+                    toast.error("Сессия истекла, войдите снова");
+                    navigate("/login");
+                } else {
+                    toast.error(err.message || "Ошибка загрузки");
+                }
+            }
+        };
+
+        fetchInfo();
+    }, []);
+
+    useEffect(() => {
+        if (authentication) {
+            setTimeout(() => inputsRef.current[0]?.focus(), 100);
+        }
+    }, [authentication]);
+
+    useEffect(() => {
+        const codeStr = values.join("");
+        if (codeStr.length === CODE_LENGTH && !values.includes("")) {
+            confirmCode(codeStr);
+        }
+    }, [values]);
+
+    const confirmCode = async (code) => {
+        setConfirmLoading(true);
+        setConfirmError("");
+        const token = localStorage.getItem("access");
+        const fullPhone = `${codes}${number}`;
+
+        try {
+            const res = await post.confirm_phone_code(
+                { phone: fullPhone, code },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setNumber("")
+            setAuthentication(false);
+            toast.success('Ваш номер успешно потверждено')
+        } catch (err) {
+            console.error("Ошибка подтверждения:", err);
+            console.error("Ответ сервера:", err.response?.data);
+
+            setConfirmError(
+                err.response?.data?.detail || "Неверный код"
+            );
+
+            setValues(Array(CODE_LENGTH).fill(""));
+            inputsRef.current[0]?.focus();
+        } finally {
+            setConfirmLoading(false);
+        }
+    };
+
+
+    const handleResend = async () => {
+        const fullPhone = `${codes}${number}`;
+
+
+        try {
+            const token = localStorage.getItem("access");
+            const response = await axios.post(
+                "https://nako.navisdevs.ru/api/auth/profile/request-phone-code/",
+                { phone: fullPhone },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("📲 Код отправлен:", response.data);
+        } catch (error) {
+            console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
+        }
+
+    };
+
+    const handleChange = (index, e) => {
+        const val = e.target.value;
+        if (!/^[0-9a-zA-Z]$/.test(val)) return;
+        const newValues = [...values];
+        newValues[index] = val;
+        setValues(newValues);
+        if (index < CODE_LENGTH - 1) {
+            inputsRef.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (index, e) => {
+        if (e.key === "Backspace") {
+            const newValues = [...values];
+            if (newValues[index] === "") {
+                if (index > 0) inputsRef.current[index - 1]?.focus();
+            } else {
+                newValues[index] = "";
+                setValues(newValues);
+            }
+        }
+    };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pasted = e.clipboardData
+            .getData("text")
+            .replace(/\s/g, "")
+            .slice(0, CODE_LENGTH)
+            .split("");
+        const newValues = Array(CODE_LENGTH).fill("");
+        pasted.forEach((char, i) => {
+            if (/^[0-9a-zA-Z]$/.test(char)) newValues[i] = char;
+        });
+        setValues(newValues);
+        inputsRef.current[Math.min(pasted.length - 1, CODE_LENGTH - 1)]?.focus();
+    };
+
+    useEffect(() => {
+        const fetch2FA = async () => {
+            try {
+                const token = localStorage.getItem("access");
+
+                const res = await axios.post(
+                    "https://nako.navisdevs.ru/api/auth/2fa/setup/",
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Token ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                setQrImage(res.data.qr_code);
+                setSecretKey(res.data.secret);
+
+            } catch (error) {
+                console.error("❌ Ошибка при получении 2FA данных:", error.response?.data || error.message);
+            }
+        };
+
+        fetch2FA();
+    }, []);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(secretKey);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleVerify = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const token = localStorage.getItem("access");
+
+            const response = await axios.post(
+                "https://nako.navisdevs.ru/api/auth/2fa/verify/",
+                { code: cood },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            toast.success('Двухфакторная аутентификация успешно подключена');
+            setAuthentication(false)
+            setCood("")
+        } catch (error) {
+            toast.error(error.response?.data?.error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className={css.parent}>
@@ -80,75 +386,112 @@ const Profile = () => {
                                     <div className={css.user}>
                                         <img src={user} alt="profile" />
                                         <div>
-                                            <h4>Пользователь</h4>
-                                            <p>Не верифицирован</p>
+                                            <h4>{info.last_name} {info.first_name} {info.surname}</h4>
+                                            <p style={{ color: info.is_2fa_enabled ? 'green' : 'red' }}>
+                                                {info.is_2fa_enabled ? 'Верифицирован' : 'Не верифицирован'}
+                                            </p>
                                         </div>
                                     </div>
                                     <div className={css.data_profil}>
                                         <div>
                                             <h4>ID ползователя</h4>
-                                            <p>AFSA ASAH SAGH AHGS AGSH  AGSH</p>
+                                            <p>{info.uuid}</p>
                                         </div>
                                         <div className={css.solid_gorizont}></div>
                                         <div>
                                             <h4>Время последней активности</h4>
-                                            <p>09.07.2025 12:45</p>
+                                            <p>{info.last_activity}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className={css.block}>
-                                    <div className={css.vvod}>
-                                        <div className={css.inputs}>
-                                            <label >Фамилия</label>
-                                            <input type="text" placeholder='Введите фамилию' />
-                                        </div>
-                                        <div className={css.inputs}>
-                                            <label >Имя</label>
-                                            <input type="text" placeholder='Введите имя' />
-                                        </div>
-                                        <div className={css.inputs} >
-                                            <label >Отчество</label>
-                                            <input type="text" placeholder='Введите отчество' />
-                                        </div>
-                                        <div className={css.inputs}>
-                                            <label >Дата рождения</label>
-                                            <input type="date" placeholder='DD.MM.YYYY' />
-                                        </div>
-                                        <div className={css.inputs}>
-                                            <label >Страна</label>
-                                            <div className={css.from}>
-                                                <select>
-                                                    <option value="Кыргызстан">Кыргызстан</option>
-                                                    <option value="Казакстан">Казакстан</option>
-                                                </select>
-                                                <IoIosArrowDown className={css.icooo} />
-                                            </div>
-                                        </div>
-                                        <div className={css.inputs}>
-                                            <label >Телефон</label>
-                                            <div className={css.phone_input}>
-                                                <div className={css.dropdown}>
-                                                    <IoIosArrowDown className={css.arrow_phone} />
-                                                    <select value={code} onChange={(e) => setCode(e.target.value)}>
-                                                        {countryCodes.map((c) => (
-                                                            <option key={c} value={c}>{c}</option>
-                                                        ))}
-                                                    </select>
-                                                </div>
+                                <div className={css.osnovnoy}>
+                                    <div className={css.block}>
+                                        <form className={css.vvod} onSubmit={handleSubmit}>
+                                            <div className={css.inputs}>
+                                                <label>Фамилия</label>
                                                 <input
-                                                    type="number"
-                                                    placeholder="000 000 000"
-                                                    value={number}
-                                                    onChange={(e) => setNumber(e.target.value)}
+                                                    type="text"
+                                                    placeholder="Введите фамилию"
+                                                    value={surname}
+                                                    onChange={(e) => setSurname(e.target.value)}
                                                 />
-                                                <button className={confirm} onClick={() => {
-                                                    if (number.length !== 0) {
-                                                        setCod(true);
-                                                    }
-                                                }}>Подтвердить</button>
                                             </div>
-                                        </div>
-                                        <button className={css.submit} >Сохранить</button>
+
+                                            <div className={css.inputs}>
+                                                <label>Имя</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Введите имя"
+                                                    value={name}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className={css.inputs}>
+                                                <label>Отчество</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Введите отчество"
+                                                    value={patronymic}
+                                                    onChange={(e) => setPatronymic(e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className={css.inputs}>
+                                                <label>Дата рождения</label>
+                                                <DatePicker
+                                                    locale={ru}
+                                                    selected={startDate}
+                                                    onChange={(date) => setStartDate(date)}
+                                                    dateFormat="dd.MM.yyyy"
+                                                    placeholderText="ДД.ММ.ГГГГ"
+                                                    className={css.datepicer}
+                                                />
+                                            </div>
+
+                                            <div className={css.inputs}>
+                                                <label>Страна</label>
+                                                <div className={css.from}>
+                                                    <select value={country} onChange={(e) => setCountry(e.target.value)}>
+                                                        <option value="">Страна</option>
+                                                        <option value="Кыргызстан">Кыргызстан</option>
+                                                        <option value="Казакстан">Казакстан</option>
+                                                    </select>
+                                                    <IoIosArrowDown className={css.icooo} />
+                                                </div>
+                                            </div>
+
+                                            <div className={css.inputs}>
+                                                <label>Телефон</label>
+                                                <div className={css.phone_input}>
+                                                    <div className={css.dropdown}>
+                                                        <IoIosArrowDown className={css.arrow_phone} />
+                                                        <select value={codes} onChange={(e) => setCode(e.target.value)}>
+                                                            {countryCodes.map((c) => (
+                                                                <option key={c} value={c}>{c}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <input
+                                                        type="number"
+                                                        placeholder="000 000 000"
+                                                        value={number}
+                                                        onChange={(e) => setNumber(e.target.value)}
+                                                    />
+                                                    <button
+                                                        className={confirm}
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            requestPhoneCode();
+
+                                                        }}
+                                                    >
+                                                        Подтвердить
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <button className={css.submit} type='submit'>Сохранить</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +510,9 @@ const Profile = () => {
                                     <h5>Требования</h5>
                                     <p>Пройдите регистрацию и выберите тип аккаунта</p>
 
-                                    <button className={css.verificate} onClick={() => setVerificate(true)}>Пройти верификацию</button>
+                                    <button className={css.verificate} onClick={(e) => {
+                                        e.preventDefault(); handleVerificate()
+                                    }}>Пройти верификацию</button>
                                 </div>
                                 <div className={css.block}>
                                     <h4>👤 Частное лицо</h4>
@@ -181,7 +526,9 @@ const Profile = () => {
                                     <h5>Требования</h5>
                                     <p>📱 Телефон <br /> 📄 Паспорт <br /> 📸 Селфи с документом</p>
 
-                                    <button className={css.verificate} onClick={() => setVerificate(true)}>Пройти верификацию</button>
+                                    <button className={css.verificate} onClick={(e) => {
+                                        e.preventDefault(); handleVerificate()
+                                    }}>Пройти верификацию</button>
                                 </div>
                                 <div className={css.block}>
                                     <h4>🏢 Юридическое лицо</h4>
@@ -195,7 +542,9 @@ const Profile = () => {
                                     <h5>Требования</h5>
                                     <p>📄 Учредительные документы <br /> 📧 Корпоративная почта <br /> 🏦 Банковские реквизиты <br /> 📜 Подписание договора</p>
 
-                                    <button className={css.verificate} onClick={() => setVerificate(true)}>Пройти верификацию</button>
+                                    <button className={css.verificate} onClick={(e) => {
+                                        e.preventDefault(); handleVerificate()
+                                    }}>Пройти верификацию</button>
                                 </div>
 
                             </div>
@@ -209,7 +558,7 @@ const Profile = () => {
                                             <h5>Двухфакторная аутентификация</h5>
                                             <p>Чтобы не ждать ОТР-код, получайте проверочные коды через приложение Google Authenticator. Приложение работает, даже если ваш телефон находится в автономном режиме.</p>
                                         </div>
-                                        <span>Подключить</span>
+                                        <span onClick={() => setAuthentication(true)}>Подключить</span>
                                     </div>
                                 </div>
                                 <div className={css.block}>
@@ -293,7 +642,6 @@ const Profile = () => {
                     <div className={css.modal} onClick={(e) => e.stopPropagation()}>
                         <h2 >Введите код из смс</h2>
                         <p>Отправили код на {code}{number}</p>
-                        <CodeInput length={6} onComplete={handleComplete} />
                         <div className={css.eshe}><button className={css.eshe_submit} onClick={() => { setCod(false); }}>Отправить еще раз</button></div>
                     </div>
                 </div>,
@@ -453,6 +801,57 @@ const Profile = () => {
                             <div className={css.ff}>
                                 <button onClick={() => setChangeInput(false)}>Отменить</button>
                                 <button className={css.delete_submit} onClick={() => setChangeInput(false)}>Сохранить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {authentication && ReactDOM.createPortal(
+                <div className={css.overlay} >
+                    <div className={css.modal_auth} >
+                        <button className={css.modal_close} onClick={() => setAuthentication(false)}><IoClose /></button>
+                        <h2>Верификация с помощью Google <br /> Authenticator</h2>
+                        <div className={css.pages}>
+                            <div>1</div>
+                            <p>Чтобы не ждать ОТР-код, получайте проверочные коды через приложение Google Authenticator. Приложение работает, даже если ваш телефон находится в автономном режиме.</p>
+                        </div>
+                        <div className={css.qr_block}>
+                            <div className={css.qr}>
+                                <img src={qrImage} alt="qr" />
+                            </div>
+                            <div className={css.url_qr}>
+                                <p>Отсканируйте QR-код или скопируйте 16-значный ключ</p>
+                                <div><h4>{secretKey}</h4> <span onClick={handleCopy}>{copied ? <TbChecks color="green" /> : <TbCopy />}</span></div>
+                            </div>
+                        </div>
+                        <div className={css.pages}>
+                            <div>2</div>
+                            <p>Откройте Google Authenticator и добавьте новый аутентификатор, используя 16-значный ключ, который вы только что скопировали.</p>
+                        </div>
+                        <div className={css.pages}>
+                            <div>3</div>
+                            <p>Вернитесь и подтвердите новый аутентификатор в личном кабинете XRuby. Убедитесь, что вы завершили шаг 2, прежде чем продолжить.</p>
+                        </div>
+                        <form onSubmit={handleVerify}>
+                            <div className={css.inputik}>
+                                <label >Код из Google Authenticator</label>
+                                <input
+                                    type="text"
+                                    placeholder="Введите 6-значный код"
+                                    value={cood}
+                                    onChange={(e) => setCood(e.target.value)}
+                                    maxLength={6}
+                                    required
+                                    className={css.input}
+                                />
+                            </div>
+                            <div className={css.ff}>
+                                <button>Отменить</button>
+                                <button type="submit" disabled={loading} className={css.button}>
+                                    {loading ? <div className='spinner'></div> : "Отправить"}
+                                </button>
                             </div>
                         </form>
                     </div>

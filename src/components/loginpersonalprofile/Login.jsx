@@ -2,13 +2,14 @@ import css from "./register/Register.module.css";
 import image from "../../img/register.png";
 import favicon from "../../img/svg/favicon.svg";
 import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
 import { useState } from "react";
 import { HiOutlineMail } from "react-icons/hi";
 import { Header } from "../header/Header";
 import { post } from "../../api/ApiRoutes";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -16,22 +17,23 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // включаем лоадинг
   
     try {
       const res = await post.login({ email, password });
-  
-      // 💾 Сохраняем только access token
-      localStorage.setItem("access", res.token); // или res.access — в зависимости от API
-  
-      // ✅ Перенаправляем пользователя
+      localStorage.setItem("access", res.token);
+      console.log(res);
       navigate("/profile");
     } catch (err) {
       setError(err.message || "Ошибка входа");
+      toast.error("Неверный логин или пароль");
+    } finally {
+      setLoading(false); // выключаем лоадинг в любом случае
     }
-    console.log(res);
   };
 
   return (
@@ -81,13 +83,11 @@ export const Login = () => {
               </span>
             </div>
 
-            {error && <div className={css.error}>{error}</div>}
-
-            <button type="button" className={css.forgot_password}>
+            <Link to="/forgot_your_password" className={css.forgot_password}>
               Забыли пароль?
-            </button>
+            </Link>
 
-            <button type="submit" className={css.submit}>Далее</button>
+            <button type="submit" className={css.submit}>{loading ? <div className={css.spinner}></div> : "Далее"}</button>
 
             <button
               type="button"

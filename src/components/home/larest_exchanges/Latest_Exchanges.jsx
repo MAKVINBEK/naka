@@ -1,6 +1,6 @@
 import css from "./Latest_Exchanges.module.css"
 import bitcoin from "../../../img/svg/bitcoin.svg"
-import sber from "../../../img/svg/sber.svg"
+import Tether from "../../../img/svg/Buy Tether.svg"
 import { IoMdArrowForward } from "react-icons/io";
 import many from "../../../img/svg/many.svg"
 
@@ -49,7 +49,7 @@ export const Latest_Exchanges = () => {
                                 <p className={css.p}>{el.to}</p>
                             </div>
                             <div className={css.coin}>
-                                <img src={sber} alt="" />
+                                <img src={Tether} alt="" />
                             </div>
                             <div>
                                 <div className={css.gap}><h5>{el.amount}</h5> <h5>{el.to}</h5></div>

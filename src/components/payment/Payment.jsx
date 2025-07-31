@@ -6,7 +6,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuCheck } from "react-icons/lu";
 import bitcoin from "../../img/svg/bitcoin.svg"
-import sber from "../../img/svg/sber.svg"
+import Tether from "../../img/svg/Buy Tether.svg"
 import { Link } from "react-router-dom";
 import Modal from "../../assets/Modal";
 import { Header } from "../header/Header";
@@ -95,7 +95,7 @@ export const PaymentStep = () => {
                                 </div>
                                 <div>
                                     <p>Обмен по курсу:</p>
-                                    <h5>1 BTC = 5785785.6841 руб </h5>
+                                    <h5>1 BTC = 5785785.6841 usdt </h5>
                                 </div>
                                 <div>
                                     <p>Номер карты:</p>
@@ -117,10 +117,10 @@ export const PaymentStep = () => {
                                     </div>
                                     <div className={css.arrow}><IoIosArrowRoundForward size={34} /></div>
                                     <div className={css.contain_many}>
-                                        <h5> 398.12 ₮</h5>
+                                        <h5> 398.12 </h5>
                                         <div className={css.many}>
-                                            <div><img src={sber} alt="" /></div>
-                                            Сбербанк ₽
+                                            <div><img src={Tether} alt="" /></div>
+                                            Tether 
                                         </div>
                                     </div>
                                 </div>

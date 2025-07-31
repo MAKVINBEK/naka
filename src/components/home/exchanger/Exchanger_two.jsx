@@ -9,19 +9,12 @@ import tinkov from "../../../img/svg/tinkov.svg"
 import { Link } from "react-router-dom";
 
 const fakeData = [
-    { name: "Сбербанк", image: sber, surname: "RUB", currency: "RUB" },
-    { name: "Visa/MC rub", image: mc, surname: "RUB", currency: "RUB" },
-    { name: "Мир", image: mir, surname: "RUB", currency: "RUB" },
-    { name: "Тинькофф", image: tinkov, surname: "RUB", currency: "RUB" },
     { name: "Bitcoin", image: bitcoin, surname: "BTC", currency: "Крипто" },
     { name: "Bitcoin", image: bitcoin, surname: "BTC", currency: "Крипто" },
-    { name: "Visa/MC rub", image: mc, surname: "RUB", currency: "RUB" },
-    { name: "Мир", image: mir, surname: "RUB", currency: "RUB" },
-    { name: "Тинькофф", image: tinkov, surname: "RUB", currency: "RUB" },
     { name: "Bitcoin", image: bitcoin, surname: "BTC", currency: "Крипто" },
 ];
 
-const filters = ["Все", "Крипто", "USD", "RUB"];
+const filters = ["Все", "Крипто", "USD", ];
 
 
 

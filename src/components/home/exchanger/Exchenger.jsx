@@ -1,31 +1,22 @@
 import css from "./Exchenger.module.css"
 import question from "../../../img/svg/question.svg"
 import bitcoin from "../../../img/svg/bitcoin.svg"
-import sber from "../../../img/svg/sber.svg"
+import BNB from "../../../img/svg/Buy BNB.svg"
+import Chainlink from "../../../img/svg/Buy Chainlink.svg"
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import mir from "../../../img/svg//mir.svg"
-import mc from "../../../img/svg//mc.svg"
-import tinkov from "../../../img/svg/tinkov.svg"
 import { IoIosArrowDown } from "react-icons/io";
 import promocod from "../../../img/svg/promocod.svg"
 import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 
 const fakeData = [
-    { name: "Сбербанк", image: sber, surname: "RUB", currency: "RUB" },
-    { name: "Visa/MC rub", image: mc, surname: "RUB", currency: "RUB" },
-    { name: "Мир", image: mir, surname: "RUB", currency: "RUB" },
-    { name: "Тинькофф", image: tinkov, surname: "RUB", currency: "RUB" },
     { name: "Bitcoin", image: bitcoin, surname: "BTC", currency: "Крипто" },
-    { name: "Bitcoin", image: bitcoin, surname: "BTC", currency: "Крипто" },
-    { name: "Visa/MC rub", image: mc, surname: "RUB", currency: "RUB" },
-    { name: "Мир", image: mir, surname: "RUB", currency: "RUB" },
-    { name: "Тинькофф", image: tinkov, surname: "RUB", currency: "RUB" },
-    { name: "Bitcoin", image: bitcoin, surname: "BTC", currency: "Крипто" },
+    { name: "BNB", image: BNB, surname: "BNB", currency: "Крипто" },
+    { name: "Chainlink", image: Chainlink, surname: "Chainlink", currency: "Крипто" },
 ];
 
-const filters = ["Все", "Крипто", "USD", "RUB"];
+const filters = ["Все", "Крипто", "USD"];
 
 export const Exchenger = () => {
     const [vibor,setVibor]= useState(false)
@@ -76,14 +67,14 @@ export const Exchenger = () => {
                         <div className={css.flexx}>
                             <p className={css.title_exchange}>Отдаете</p>
                             <div className={css.tip_contain}>
-                                <div className={css.icon}><img src={sber} alt="" /></div>
+                                <div className={css.icon}><img src={BNB} alt="" /></div>
                                 <div className={css.tip_title}>
-                                    <h4>Сбер </h4>
-                                    <h6>Bitcoin</h6>
+                                    <h4>BNB </h4>
+                                    <h6>BNB</h6>
                                 </div>
                                 <div className={css.tip_coin}>
                                     <button onClick={() => setVibor(true)}><IoIosArrowDown size={24} /></button>
-                                    <div>Сбер </div>
+                                    <div>BNB </div>
                                 </div>
                             </div>
                         </div>

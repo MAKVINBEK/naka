@@ -1,17 +1,19 @@
-import css from "./Register.module.css"
-import image from "../../../img/register.png"
-import favicon from "../../../img/svg/favicon.svg"
+import css from "./Register.module.css";
+import image from "../../../img/register.png";
+import favicon from "../../../img/svg/favicon.svg";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
-import { useState } from "react";
+import ReactDOM from "react-dom";
+import { useState, useRef, useEffect } from "react";
 import { HiOutlineMail } from "react-icons/hi";
-import { Header } from "../../header/Header";
 import { post } from "../../../api/ApiRoutes";
+import { Header } from "../../header/Header";
 
 export const Register = () => {
     const navigate = useNavigate();
+
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [email, setEmail] = useState("");
@@ -19,29 +21,101 @@ export const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showModal, setShowModal] = useState(false);
+
+    const CODE_LENGTH = 6;
+    const [values, setValues] = useState(Array(CODE_LENGTH).fill(""));
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [confirmError, setConfirmError] = useState("");
+    const inputsRef = useRef([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
-
         try {
-            const data = {
-                email,
-                password,
-                confirm_password: confirmPassword
-            };
-
-            await post.requester(data); 
-
-            navigate("/login"); 
+            await post.requester({ email, password, confirm_password: confirmPassword });
+            setShowModal(true);
         } catch (err) {
-            setError(err.message || "Произошла ошибка");
+            setError(err.message || "Произошла ошибка при регистрации");
         } finally {
             setLoading(false);
         }
     };
-    
+
+    const handleComplete = (code) => {
+        console.log("Введённый код:", code);
+    };
+
+    useEffect(() => {
+        const codeStr = values.join("");
+        if (codeStr.length === CODE_LENGTH && !values.includes("")) {
+            confirmCode(codeStr);
+        }
+    }, [values]);
+
+    const confirmCode = async (code) => {
+        setConfirmLoading(true);
+        setConfirmError("");
+        try {
+            const res = await post.confirmCode({ email, code });
+            localStorage.setItem("access",res.token);
+            navigate('/profile');
+        } catch (err) {
+            setConfirmError('Неверный код');
+            setValues(Array(CODE_LENGTH).fill(""));
+            inputsRef.current[0]?.focus();
+        } finally {
+            setConfirmLoading(false);
+        }
+    };
+
+    const handleResend = async () => {
+        try {
+            await post.requester({ email, password, confirm_password: confirmPassword });
+            setConfirmError('');
+            setValues(Array(CODE_LENGTH).fill(''));
+            inputsRef.current[0]?.focus();
+        } catch (err) {
+            setConfirmError('Ошибка при повторной отправке кода');
+        }
+    };
+
+    const handleChange = (index, e) => {
+        const val = e.target.value;
+        if (!/^[0-9a-zA-Z]$/.test(val)) return;
+        const newValues = [...values];
+        newValues[index] = val;
+        setValues(newValues);
+        if (index < CODE_LENGTH - 1) {
+            inputsRef.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (index, e) => {
+        if (e.key === 'Backspace') {
+            const newValues = [...values];
+            if (newValues[index] === '') {
+                if (index > 0) {
+                    inputsRef.current[index - 1]?.focus();
+                }
+            } else {
+                newValues[index] = '';
+                setValues(newValues);
+            }
+        }
+    };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pasted = e.clipboardData.getData('text').slice(0, CODE_LENGTH).split('');
+        const newValues = Array(CODE_LENGTH).fill('');
+        pasted.forEach((char, i) => {
+            if (/^[0-9a-zA-Z]$/.test(char)) newValues[i] = char;
+        });
+        setValues(newValues);
+        inputsRef.current[Math.min(pasted.length, CODE_LENGTH - 1)]?.focus();
+    };
 
     return (
         <div className={css.parent}>
@@ -58,7 +132,6 @@ export const Register = () => {
 
                     <form className={css.form} onSubmit={handleSubmit}>
                         <h2>Регистрация</h2>
-
                         <div className={css.password_wrapper}>
                             <input
                                 type="email"
@@ -68,11 +141,8 @@ export const Register = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <span className={css.toggle_icon}>
-                                <HiOutlineMail />
-                            </span>
+                            <span className={css.toggle_icon}><HiOutlineMail /></span>
                         </div>
-
                         <div className={css.password_wrapper}>
                             <input
                                 type={visible1 ? "text" : "password"}
@@ -86,7 +156,6 @@ export const Register = () => {
                                 {visible1 ? <FiEyeOff /> : <SlEye />}
                             </span>
                         </div>
-
                         <div className={css.password_wrapper}>
                             <input
                                 type={visible2 ? "text" : "password"}
@@ -100,7 +169,6 @@ export const Register = () => {
                                 {visible2 ? <FiEyeOff /> : <SlEye />}
                             </span>
                         </div>
-
                         <label className={css.checkbox_wrapper}>
                             <input type="checkbox" className={css.hidden_checkbox} required />
                             <span className={css.custom_checkbox}>
@@ -109,20 +177,49 @@ export const Register = () => {
                                 </svg>
                             </span>
                             <span className={css.checkbox_text}>
-                                Нажимая на кнопку Регистрация, я соглашаюсь{" "}
-                                <a href="#" target="_blank" rel="noopener noreferrer">
-                                    с правилами обмена
-                                </a>
+                                Я согласен с <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> и <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">пользовательским соглашением</a>
                             </span>
                         </label>
-
                         {error && <p style={{ color: "red" }}>{error}</p>}
                         <button className={css.submit} type="submit" disabled={loading}>
-                            {loading ? "Загрузка..." : "Далее"}
+                        {loading ? <div className='spinner'></div> : "Регистрация"}
                         </button>
                     </form>
                 </div>
             </div>
+
+            {showModal && ReactDOM.createPortal(
+                <div className={css.overlay} >
+                    <div className={css.modal} >
+                        <h2>Подтверждение кода</h2>
+                        <p>Введите код подтверждения, который мы отправили на ваш email.</p>
+                        <div className={css.code_input_wrapper}>
+                            {values.map((value, i) => (
+                                <input
+                                    key={i}
+                                    ref={(el) => (inputsRef.current[i] = el)}
+                                    type="text"
+                                    maxLength="1"
+                                    value={value}
+                                    onChange={(e) => handleChange(i, e)}
+                                    onKeyDown={(e) => handleKeyDown(i, e)}
+                                    onPaste={handlePaste}
+                                    className={css.input}
+                                    disabled={confirmLoading}
+                                />
+                            ))}
+                        </div>
+                        {confirmError && <p style={{ color: 'red', marginBottom: '0px', }}>{confirmError}</p>}
+                        {confirmLoading && <p>Проверка кода...</p>}
+                        <div className={css.eshe}>
+                           <button className={css.eshe_submit} onClick={handleResend} disabled={confirmLoading}>
+                            Отправить еще раз
+                        </button> 
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
         </div>
     );
 };

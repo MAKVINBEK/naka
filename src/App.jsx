@@ -20,35 +20,65 @@ import History from "./components/profiles/history/History";
 import { Login } from "./components/loginpersonalprofile/Login";
 import { Forgot_Password } from "./components/loginpersonalprofile/Forgot_Password";
 import { New_Password } from "./components/loginpersonalprofile/New_Password";
+import Rulesconfident from "./components/Termsservice";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import { ToastContainer } from "react-toastify";
+import { ProtectedRoute } from "./components/loginpersonalprofile/auth/ProtectedRoute";
+import { PublicRoute } from "./components/loginpersonalprofile/auth/PublicRoute";
+
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ['/exchanger002','/payment_step','/registration','/profile','/applications','/operations','/login','/forgot_your_password','/new_password'];
+  const hideHeaderRoutes = ['/exchanger002', '/payment_step', '/registration', '/profile', '/applications', '/operations', '/login', '/forgot_your_password', '/new_password'];
   return (
 
     <>
       <div>
-        <ScrollToTop/>
-          <Routes>
-            <Route path='/' element={<Home/>} />
-            <Route path='/all_review' element={<AllReview/>} />
-            <Route path='/all_news' element={<AllNews/>} />
-            <Route path='/news/:id' element={<DetailNews/>} />
-            <Route path='/faq' element={<Faq/>} />
-            <Route path='/service' element={<Service/>} />
-            <Route path='/exchanger002' element={<Exchanger_Two/>}/>
-            <Route path='/exchange_rules' element={<Rules/>}/>
-            <Route path='/contacts' element={<Contacts/>}/>
-            <Route path='/payment_step' element={<PaymentStep/>}/>
-            <Route path='/registration' element={<Register/>}/>
-            <Route path='/login' element={<Login/>}/>
-            <Route path="/forgot_your_password" element={<Forgot_Password />} />
-            <Route path="/new_password" element={<New_Password />} />
-            <Route path='/operations' element={<History/>}/>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/applications" element={<Aplications />} />
-          </Routes>
-          {!hideHeaderRoutes.includes(location.pathname) && <Footer />}
+        <ScrollToTop />
+        <ToastContainer position="top-right" autoClose={2000} />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/all_review' element={<AllReview />} />
+          <Route path='/all_news' element={<AllNews />} />
+          <Route path='/news/:id' element={<DetailNews />} />
+          <Route path='/faq' element={<Faq />} />
+          <Route path='/service' element={<Service />} />
+          <Route path='/exchanger002' element={<Exchanger_Two />} />
+          <Route path='/exchange_rules' element={<Rules />} />
+          <Route path='/contacts' element={<Contacts />} />
+          <Route path='/payment_step' element={<PaymentStep />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
+          <Route path="/forgot_your_password" element={<Forgot_Password />} />
+          <Route path="/new_password" element={<New_Password />} />
+          <Route path="/terms-of-service" element={<Rulesconfident />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/applications" element={<ProtectedRoute><Aplications /></ProtectedRoute>} />
+          <Route path='/operations' element={<ProtectedRoute><History /></ProtectedRoute>} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+        {!hideHeaderRoutes.includes(location.pathname) && <Footer />}
       </div>
     </>
   )

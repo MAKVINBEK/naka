@@ -1,7 +1,7 @@
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import css from './Sidebar.module.css';
 import user from "../../img/profile-user.png"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from "react-dom";
 import { IoClose } from "react-icons/io5";
 import { RiUser3Line } from "react-icons/ri";
@@ -11,11 +11,68 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { TbLogout2 } from "react-icons/tb";
 import { LuArrowLeftToLine } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { get } from '../../api/ApiRoutes';
 
 const Sidebar = ({close,setClose}) => {
   const [delet, setDelet] = useState(false);
   const [accountExit, setAccountExit]= useState(false)
   const [open,setOpen]= useState(false)
+  const navigate = useNavigate();
+  const [info,setInfo]= useState([])
+
+
+  const handleDeleteAccount = async () => {
+    try {
+      const token = localStorage.getItem("access"); // или откуда у тебя токен
+  
+      if (!token) {
+        toast.error("Пользователь не авторизован");
+        return;
+      }
+  
+      const response = await axios.post(
+        "https://nako.navisdevs.ru/api/auth/delete-account/",
+        {},
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+  
+      toast.success("Аккаунт успешно удалён");
+      localStorage.removeItem('access');
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+      toast.error("Ошибка при удалении аккаунта");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('access');
+    navigate('/');
+  };
+
+  useEffect(() => {
+          const fetchInfo = async () => {
+            try {
+              const data = await get.personalInfo();
+              setInfo(data)
+            } catch (err) {
+              if (err.status === 401) {
+                toast.error("Сессия истекла, войдите снова");
+                navigate("/login");
+              } else {
+                toast.error(err.message || "Ошибка загрузки");
+              }
+            }
+          };
+        
+          fetchInfo();
+        }, []);
 
   return (
     <div className={`${css.sidebar} ${open?css.open:""} ${close?css.close:""}`}>
@@ -23,8 +80,8 @@ const Sidebar = ({close,setClose}) => {
       <div className={css.user}>
         <img src={user} alt="profile" />
         <div>
-          <h4>Пользователь</h4>
-          <p>maratovarayana00@gmail.com</p>
+          <h4>{info.last_name} {info.first_name} {info.surname}</h4>
+          <p>{info.email}</p>
         </div>
       </div>
       <div className={css.solid}></div>
@@ -47,12 +104,12 @@ const Sidebar = ({close,setClose}) => {
               <IoClose size={24} />
             </button>
 
-            <h2 >Удалить аккаунт?</h2>
-            <p >Ваш аккаунт удалится навсегда, и вам придется заново зарегистрироваться
+            <h2>Удалить аккаунт?</h2>
+            <p>Ваш аккаунт удалится навсегда, и вам придется заново зарегистрироваться
             </p>
             <div className={css.ff}>
               <button onClick={() => setDelet(false)}>Отменить</button>
-              <button className={css.delete_submit} onClick={() => setDelet(false)}>Удалить</button>
+              <button className={css.delete_submit} onClick={handleDeleteAccount}>Удалить</button>
             </div>
           </div>
         </div>,
@@ -70,7 +127,7 @@ const Sidebar = ({close,setClose}) => {
             <p >Вам придется повторно выполнить авторизацию </p>
             <div className={css.ff}>
               <button onClick={() => setAccountExit(false)}>Отменить</button>
-              <button className={css.delete_submit} onClick={() => setAccountExit(false)}>Удалить</button>
+              <button className={css.delete_submit} onClick={handleLogout}>Выйти</button>
             </div>
           </div>
         </div>,
