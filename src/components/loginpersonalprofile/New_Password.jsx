@@ -7,8 +7,8 @@ import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
 import { useState } from "react";
 import { Header } from "../header/Header";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { post } from "../../api/ApiRoutes";
 
 export const New_Password = () => {
     const navigate = useNavigate();
@@ -36,8 +36,7 @@ export const New_Password = () => {
             const token = searchParams.get("token");
             const uidb64 = searchParams.get("uid");
 
-            await axios.post(
-                "https://nako.navisdevs.ru/api/auth/set-password/",
+            await post.setPassword(
                 {
                     uidb64,
                     token,

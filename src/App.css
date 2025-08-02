@@ -1,19 +1,18 @@
-
 @font-face {
   font-family: "Inter";
   src: url(./assets/fonts/Inter-VariableFont_opsz\,wght.ttf);
 }
 
 :root {
-  --color-dark-bg:#0B1821;
+  --color-dark-bg: #0B1821;
   --color-bg-dark: #050D11;
   --color-bg-block: #09131B;
   --color-bg-modal-overlay: #00000066;
   --color-bg-light: #E4E7F1;
   --color-white: #ffffff;
   --color-whitee: #ffffff;
-  --color-dsr:#172531;
-  --color-ffffff:#ffffff;
+  --color-dsr: #172531;
+  --color-ffffff: #ffffff;
 
   --color-accent-red: #C8102E;
   --color-accent-red-light: #c8102f69;
@@ -31,34 +30,34 @@
   --color-darkgray: #313131;
   --color-darkgray-bort: #313131;
   --color-darkgray-color: #313131;
-  --color-1c2e3e:#ffffff;
-  --color-bkck:#1C2B38;
+  --color-1c2e3e: #ffffff;
+  --color-bkck: #1C2B38;
 
   --color-border: #1A1E20;
   --color-border-light: #66686A33;
   --color-border-gray: #373A41;
 
-  --color-icon:#94979c;
-  --color-hover-manu:#22262f;
-  --color-close-icon:#acacac;
-  --color-modal-color:#9f9f9f;
-  --color-dadada:#DADADA;
-  --color-fafafa:#FAFAFA;
+  --color-icon: #94979c;
+  --color-hover-manu: #22262f;
+  --color-close-icon: #acacac;
+  --color-modal-color: #9f9f9f;
+  --color-dadada: #DADADA;
+  --color-fafafa: #FAFAFA;
 }
 
 
 
 .darkstyle {
-  --color-dark-bg:#FBFBFB;
+  --color-dark-bg: #FBFBFB;
   --color-bg-dark: #f2f4f7;
   --color-bg-block: #ffffff;
   --color-bg-modal-overlay: #00000066;
   --color-bg-light: #E4E7F1;
   --color-white: #344054;
   --color-whitee: #ffffff;
-  --color-dsr:#f2f4f7;
-  --color-ffffff:#000;
-  --color-1c2e3e:#1c2e3e;
+  --color-dsr: #f2f4f7;
+  --color-ffffff: #000;
+  --color-1c2e3e: #1c2e3e;
 
   --color-accent-red: #C8102E;
   --color-accent-red-light: #c8102f69;
@@ -80,13 +79,13 @@
   --color-border-light: #66686A33;
   --color-border-gray: #373A41;
 
-  --color-icon:#94979c;
-  --color-hover-manu:#f2f4f7;
-  --color-close-icon:#acacac;
-  --color-modal-color:#9f9f9f;
-  --color-dadada:#344054;
-  --color-fafafa:#344054;
-  --color-bkck:#03A39E;
+  --color-icon: #94979c;
+  --color-hover-manu: #f2f4f7;
+  --color-close-icon: #acacac;
+  --color-modal-color: #9f9f9f;
+  --color-dadada: #344054;
+  --color-fafafa: #344054;
+  --color-bkck: #03A39E;
 }
 
 
@@ -109,16 +108,16 @@
   position: relative;
 }
 
-.absolutebg{
+.absolutebg {
   position: absolute;
- top: 0;
- left: 50%;
- transform: translateX(-50%);
- z-index: 0;
- max-width: 1213px;
-max-height: 957px;
-width: 100%;
-height: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  max-width: 1213px;
+  max-height: 957px;
+  width: 100%;
+  height: 100%;
 }
 
 .modal-overlay {
@@ -150,7 +149,7 @@ height: 100%;
   cursor: pointer;
 }
 
-.daynight{
+.daynight {
   width: 45px;
   height: 45px;
   border-radius: 100px;
@@ -165,11 +164,11 @@ height: 100%;
   transition: color 0s ease;
 }
 
-.polzovatelskoesoglashenie{
+.polzovatelskoesoglashenie {
   padding-bottom: 50px;
 }
 
-.polzovatelskoesoglashenie p{
+.polzovatelskoesoglashenie p {
   color: #000000;
   font-size: 16px;
   font-weight: 400;
@@ -177,18 +176,18 @@ height: 100%;
   text-align: justify;
 }
 
-.polzovatelskoesoglashenie p a{
+.polzovatelskoesoglashenie p a {
   color: blue;
 }
 
-.polzovatelskoesoglashenie h2{
+.polzovatelskoesoglashenie h2 {
   font-size: 18px;
   font-weight: 600;
   line-height: 1;
   text-align: center;
 }
 
-.polzovatelskoesoglashenie h3{
+.polzovatelskoesoglashenie h3 {
   text-align: center;
   font-size: 24px;
   color: #000000;
@@ -197,7 +196,7 @@ height: 100%;
   margin-top: 50px;
 }
 
-.polzovatelskoesoglashenie h4{
+.polzovatelskoesoglashenie h4 {
   text-align: end;
   font-size: 18px;
   font-weight: 600;
@@ -218,16 +217,25 @@ height: 100%;
     transform: rotate(360deg);
   }
 }
-@media(max-width:550px){
-  .polzovatelskoesoglashenie h3{
+
+@media(max-width:599px) {
+  .daynight {
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media(max-width:550px) {
+  .polzovatelskoesoglashenie h3 {
     font-size: 18px;
   }
 
-  .polzovatelskoesoglashenie h4{
+  .polzovatelskoesoglashenie h4 {
     font-size: 16px;
   }
 
-  .polzovatelskoesoglashenie p{
+  .polzovatelskoesoglashenie p {
     font-size: 14px;
   }
 }

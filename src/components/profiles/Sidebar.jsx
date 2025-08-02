@@ -1,4 +1,4 @@
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import css from './Sidebar.module.css';
 import user from "../../img/profile-user.png"
 import { useEffect, useState } from 'react';
@@ -11,9 +11,8 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { TbLogout2 } from "react-icons/tb";
 import { LuArrowLeftToLine } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { get } from '../../api/ApiRoutes';
+import { get, post } from '../../api/ApiRoutes';
 
 const Sidebar = ({close,setClose}) => {
   const [delet, setDelet] = useState(false);
@@ -25,16 +24,14 @@ const Sidebar = ({close,setClose}) => {
 
   const handleDeleteAccount = async () => {
     try {
-      const token = localStorage.getItem("access"); // или откуда у тебя токен
+      const token = localStorage.getItem("access"); 
   
       if (!token) {
         toast.error("Пользователь не авторизован");
         return;
       }
   
-      const response = await axios.post(
-        "https://nako.navisdevs.ru/api/auth/delete-account/",
-        {},
+      const response = await post.delete_account({},
         {
           headers: {
             Authorization: `Token ${token}`,

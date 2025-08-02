@@ -87,7 +87,7 @@ export const Login = () => {
               Забыли пароль?
             </Link>
 
-            <button type="submit" className={css.submit}>{loading ? <div className={css.spinner}></div> : "Далее"}</button>
+            <button type="submit" className={css.submit}>{loading ? <div className='spinner'></div> : "Далее"}</button>
 
             <button
               type="button"

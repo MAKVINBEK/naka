@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import css from "./register/Register.module.css";
 import image from "../../img/register.png";
 import favicon from "../../img/svg/favicon.svg";
@@ -8,6 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
 import { Header } from "../header/Header";
+import { post } from "../../api/ApiRoutes";
 
 const COOLDOWN_SECONDS = 900; // 15 минут
 
@@ -19,7 +19,6 @@ export const Forgot_Password = () => {
     const [secondsLeft, setSecondsLeft] = useState(0);
 
     useEffect(() => {
-        // Проверяем время последней отправки из localStorage
         const lastSent = localStorage.getItem("forgotPasswordLastSent");
         if (lastSent) {
             const elapsed = Math.floor((Date.now() - Number(lastSent)) / 1000);
@@ -60,7 +59,7 @@ export const Forgot_Password = () => {
         setLoading(true);
 
         try {
-            await axios.post("https://nako.navisdevs.ru/api/auth/forgot-password/", { email });
+            await post.forgot_password ({ email });
             toast.success("Ссылка для сброса пароля отправлена на почту.");
             localStorage.setItem("forgotPasswordLastSent", Date.now().toString());
             setCanSend(false);
@@ -113,7 +112,7 @@ export const Forgot_Password = () => {
                         <button className={css.submit} disabled={loading}>
                             {loading ? <div className="spinner"></div> : "Получить код"}
                         </button>
-                    </form>
+                    </form>       
                 </div>
             </div>
         </div>

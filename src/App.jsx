@@ -40,7 +40,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/all_review' element={<AllReview />} />
           <Route path='/all_news' element={<AllNews />} />
-          <Route path='/news/:id' element={<DetailNews />} />
+          <Route path='/news/:slug' element={<DetailNews />} />
           <Route path='/faq' element={<Faq />} />
           <Route path='/service' element={<Service />} />
           <Route path='/exchanger002' element={<Exchanger_Two />} />

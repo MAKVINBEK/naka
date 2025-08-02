@@ -62,7 +62,7 @@ const Profile = () => {
 
     const confirm = number.length === 0 ? css.noConfirm : css.confirm;
 
-    const [redirectUrl, setRedirectUrl] = useState("http://localhost:5173/profile")
+    const [redirectUrl, setRedirectUrl] = useState("https://naka.kz/profile")
 
     const [info, setInfo] = useState([])
     const CODE_LENGTH = 6;
@@ -79,12 +79,12 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+         setLoading(true)
         const payload = {
             first_name: name,
             last_name: surname,
             surname: patronymic,
-            phone: `${code}${number}`,
+            phone: `${codes}${number}`,
             birth_date: startDate ? startDate.toISOString().split("T")[0] : null,
             country,
         };
@@ -92,9 +92,7 @@ const Profile = () => {
         try {
             const token = localStorage.getItem("access");
 
-            const res = await axios.post(
-                "https://nako.navisdevs.ru/api/auth/personal-info/",
-                payload,
+            const res = await post.personal_info(payload,
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -102,7 +100,7 @@ const Profile = () => {
                     },
                 }
             );
-
+            toast.success("Отправлено")
             console.log("✅ Успешно:", res.data);
             setName("");
             setSurname("");
@@ -113,29 +111,8 @@ const Profile = () => {
             setNumber("");
         } catch (err) {
             console.error("❌ Ошибка:", err.response?.data || err.message);
-        }
-    };
-
-
-    const requestPhoneCode = async () => {
-        const fullPhone = `${codes}${number}`;
-
-
-        try {
-            const token = localStorage.getItem("access");
-            const response = await axios.post(
-                "https://nako.navisdevs.ru/api/auth/profile/request-phone-code/",
-                { phone: fullPhone },
-                {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            setAuthentication(true);
-        } catch (error) {
-            console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
+        }finally{
+            setLoading(false)
         }
     };
 
@@ -143,9 +120,7 @@ const Profile = () => {
         try {
             const token = localStorage.getItem("access");
 
-            const res = await axios.post(
-                "https://nako.navisdevs.ru/api/auth/kyc-verification/",
-                { redirect_url: redirectUrl }, // например: window.location.origin
+            const res = await post.verification({ redirect_url: redirectUrl },
                 {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -155,8 +130,6 @@ const Profile = () => {
             );
 
             console.log("✅ Успешно:", res.data);
-
-            // ⏩ Перенаправляем пользователя на полученный URL
             const formUrl = res.data?.form_url;
             if (formUrl) {
                 window.location.href = formUrl;
@@ -203,7 +176,7 @@ const Profile = () => {
 
     const confirmCode = async (code) => {
         setConfirmLoading(true);
-        setConfirmError("");
+        setConfirmError('');
         const token = localStorage.getItem("access");
         const fullPhone = `${codes}${number}`;
 
@@ -217,9 +190,11 @@ const Profile = () => {
                     },
                 }
             );
+            setValues(Array(CODE_LENGTH).fill(""));
             setNumber("")
-            setAuthentication(false);
+            setCod(false);
             toast.success('Ваш номер успешно потверждено')
+            setConfirmError('');
         } catch (err) {
             console.error("Ошибка подтверждения:", err);
             console.error("Ответ сервера:", err.response?.data);
@@ -236,27 +211,29 @@ const Profile = () => {
     };
 
 
-    const handleResend = async () => {
+    const requestPhoneCode = async () => {
         const fullPhone = `${codes}${number}`;
 
-
-        try {
-            const token = localStorage.getItem("access");
-            const response = await axios.post(
-                "https://nako.navisdevs.ru/api/auth/profile/request-phone-code/",
-                { phone: fullPhone },
-                {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            console.log("📲 Код отправлен:", response.data);
-        } catch (error) {
-            console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
+        if (number.length>1) {
+            try {
+                const token = localStorage.getItem("access");
+                const response = await post.request_phone_code({ phone: fullPhone },
+                    {
+                        headers: {
+                            Authorization: `Token ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                setConfirmError("")
+                    setCod(true);
+            } catch (error) {
+                console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
+            }
+        }else{
+            
         }
-
+        
     };
 
     const handleChange = (index, e) => {
@@ -302,8 +279,7 @@ const Profile = () => {
             try {
                 const token = localStorage.getItem("access");
 
-                const res = await axios.post(
-                    "https://nako.navisdevs.ru/api/auth/2fa/setup/",
+                const res = await post.setup(
                     {},
                     {
                         headers: {
@@ -313,8 +289,8 @@ const Profile = () => {
                     }
                 );
 
-                setQrImage(res.data.qr_code);
-                setSecretKey(res.data.secret);
+                setQrImage(res.qr_code);
+                setSecretKey(res.secret);
 
             } catch (error) {
                 console.error("❌ Ошибка при получении 2FA данных:", error.response?.data || error.message);
@@ -337,8 +313,7 @@ const Profile = () => {
         try {
             const token = localStorage.getItem("access");
 
-            const response = await axios.post(
-                "https://nako.navisdevs.ru/api/auth/2fa/verify/",
+            const response = await post.verify(
                 { code: cood },
                 {
                     headers: {
@@ -414,6 +389,7 @@ const Profile = () => {
                                                     placeholder="Введите фамилию"
                                                     value={surname}
                                                     onChange={(e) => setSurname(e.target.value)}
+                                                    required
                                                 />
                                             </div>
 
@@ -424,6 +400,7 @@ const Profile = () => {
                                                     placeholder="Введите имя"
                                                     value={name}
                                                     onChange={(e) => setName(e.target.value)}
+                                                    required
                                                 />
                                             </div>
 
@@ -473,6 +450,7 @@ const Profile = () => {
                                                         </select>
                                                     </div>
                                                     <input
+                                                    minLength='10'
                                                         type="number"
                                                         placeholder="000 000 000"
                                                         value={number}
@@ -490,7 +468,7 @@ const Profile = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <button className={css.submit} type='submit'>Сохранить</button>
+                                            <button className={css.submit} type='submit'>{loading ? <div className="spinner"></div> : "Сохранить"}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -641,8 +619,26 @@ const Profile = () => {
                 <div className={css.overlay} onClick={() => setCod(false)}>
                     <div className={css.modal} onClick={(e) => e.stopPropagation()}>
                         <h2 >Введите код из смс</h2>
-                        <p>Отправили код на {code}{number}</p>
-                        <div className={css.eshe}><button className={css.eshe_submit} onClick={() => { setCod(false); }}>Отправить еще раз</button></div>
+                        <p>Отправили код на {codes}{number}</p>
+                        <div className={css.code_input_wrapper}>
+                            {values.map((value, i) => (
+                                <input
+                                    key={i}
+                                    ref={(el) => (inputsRef.current[i] = el)}
+                                    type="text"
+                                    maxLength="1"
+                                    value={value}
+                                    onChange={(e) => handleChange(i, e)}
+                                    onKeyDown={(e) => handleKeyDown(i, e)}
+                                    onPaste={handlePaste}
+                                    className={css.input}
+                                    disabled={confirmLoading}
+                                />
+                            ))}
+                        </div>
+                        {confirmError && <p style={{ color: 'red', marginBottom: '0px', }}>{confirmError}</p>}
+                        {confirmLoading && <p>Проверка кода...</p>}
+                        <div className={css.eshe}><button className={css.eshe_submit} >Отправить еще раз</button></div>
                     </div>
                 </div>,
                 document.body

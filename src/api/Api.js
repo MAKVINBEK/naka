@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://nako.navisdevs.ru/api",
+  baseURL: "https://naka.kz/api/",
 });
 
 // 🟡 Request Interceptor: добавление access токена
