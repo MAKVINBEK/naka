@@ -1,4 +1,3 @@
-// components/PublicRoute.jsx
 import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 

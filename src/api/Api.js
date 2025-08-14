@@ -1,11 +1,9 @@
-// api.js
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://naka.kz/api/",
+  baseURL: "https://nako.navisdevs.ru/api/",
 });
 
-// 🟡 Request Interceptor: добавление access токена
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access");
   if (token) {
@@ -14,7 +12,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// ❌ Response Interceptor без refresh логики
 api.interceptors.response.use(
   (response) => response,
   (error) => {

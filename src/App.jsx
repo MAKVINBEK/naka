@@ -1,4 +1,3 @@
-import "./assets/Bootsrap.min.css"
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import ScrollToTop from './assets/ScrollTop';
@@ -7,7 +6,6 @@ import { AllNews } from "./components/news/AllNews";
 import { Faq } from "./components/home/acardion/AllFaq";
 import { Footer } from "./components/footer/Footer";
 import { Service } from "./components/service/Service";
-import { Exchanger_Two } from "./components/home/exchanger/Exchanger_two";
 import { DetailNews } from "./components/news/detailNews/Detail";
 import { Rules } from "./components/ rules/Rules";
 import { Contacts } from "./components/contacts/Contacts";
@@ -29,7 +27,7 @@ import { PublicRoute } from "./components/loginpersonalprofile/auth/PublicRoute"
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ['/exchanger002', '/payment_step', '/registration', '/profile', '/applications', '/operations', '/login', '/forgot_your_password', '/new_password'];
+  const hideHeaderRoutes = ['/exchanger002', '/payment_step', '/registration', '/profile', '/applications', '/operations', '/login', '/forgot_your_password', '/new_password',"/register"];
   return (
 
     <>
@@ -43,7 +41,6 @@ function App() {
           <Route path='/news/:slug' element={<DetailNews />} />
           <Route path='/faq' element={<Faq />} />
           <Route path='/service' element={<Service />} />
-          <Route path='/exchanger002' element={<Exchanger_Two />} />
           <Route path='/exchange_rules' element={<Rules />} />
           <Route path='/contacts' element={<Contacts />} />
           <Route path='/payment_step' element={<PaymentStep />} />

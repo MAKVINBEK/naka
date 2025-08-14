@@ -9,7 +9,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { Header } from "../header/Header";
 import { post } from "../../api/ApiRoutes";
 
-const COOLDOWN_SECONDS = 900; // 15 минут
+const COOLDOWN_SECONDS = 900; 
 
 export const Forgot_Password = () => {
     const navigate = useNavigate();

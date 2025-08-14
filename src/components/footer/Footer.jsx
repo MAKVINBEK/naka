@@ -78,7 +78,7 @@ export const Footer = () => {
                         <p>Это мультивалютный обменный  сервис,
                             где Вы можете безопасно и  выгодно
                             купить или продать нужную Вам валюту</p>
-                        <a href="/">NAKA@mail.com</a>
+                        <a href="https://naka.kz/">www.naka.kz</a>
                     </div>
                     <div className={css.block_navigate+" "+css.oo}>
                         <h4>Ресурсы</h4>

@@ -6,14 +6,15 @@
 }
 
 .image img{
-    height: 100%;
+    height: 100vh;
     width: 50vw;
     object-fit: cover;
+    background-position: center;
 }
 
 .block{
     width: 100%;
-    padding: 50px 40px;
+    padding: 30px 40px;
 }
 
 .header{
@@ -25,7 +26,7 @@
     font-size: 24px;
     color: #141416;
     margin-left: 5px;
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 40px;
     color: #9a9a9a;
 }
@@ -39,7 +40,7 @@
     justify-content: center;
     text-align: center;
     margin: 0 auto;
-    margin-top: 90px;
+    margin-top: 80px;
 }
 
 .form h2{
@@ -68,17 +69,21 @@
     margin-top: 15px;
     border: 1px solid #6F6F6F1A;
     box-shadow: 0px 0px 1.4px 0px #00000040;
-    max-width: 530px;
+    max-width: 550px;
 }
 
 .password_input {
     width: 100%;
+    height: 100%;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
     padding: 15px;
     border: none;
     background: transparent;
     font-size: 16px;
     font-weight: 500;
     outline: none;
+    margin-right: 15px;
 }
 
 .password_input::placeholder{
@@ -120,7 +125,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #8080808C;
+    border: 2px solid #8080808C;
     transition: background-color 0.2s;
 }
 
@@ -131,6 +136,7 @@
 
 .hidden_checkbox:checked+.custom_checkbox {
     background-color: #00b3a4;
+    border: none;
 }
 
 .checkbox_text {
@@ -153,6 +159,7 @@
     color: #9a9a9a;
     margin-left: auto;
     text-decoration: none;
+    margin-top: 20px;
 }
 
 .submit {
@@ -161,10 +168,10 @@
     border-radius: 15px;
     background-color: #03A39E;
     border: none;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #ffffff;
-    margin-top: 30px;
+    margin-top: 20px;
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -177,7 +184,7 @@
     color: #6f6f6f;
     border: none;
     background-color: transparent;
-    margin-top: 10px;
+    margin-top:30px;
 }
 
 .overlay {

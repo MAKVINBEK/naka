@@ -84,7 +84,6 @@ export const PaymentStep = () => {
                             </div>
                             <div className={css.stages}>
                                 <div className={css.stage}></div>
-                                <div className={css.stage}></div>
                                 <div className={`${css.stage} ${css.active_stage}`}></div>
                                 <div className={css.stage}></div>
                             </div>
@@ -170,7 +169,7 @@ export const PaymentStep = () => {
                         <div className={`${css.close} ${css.succes}`}><LuCheck /></div>
                         <h3 className={css.close_number}>Перевод №5398053 <br /> успешно выполнен!</h3>
                         <p className={css.close_text}>Я пока не знаю какой текст тут будет</p>
-                        <Link to="/personal_account" className={css.close_submit} >Перейти в профиль</Link>
+                        <Link to="/operations" className={css.close_submit} >Перейти в профиль</Link>
                     </Modal>
                 )}
 

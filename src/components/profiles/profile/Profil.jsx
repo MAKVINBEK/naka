@@ -13,11 +13,11 @@ import { HiOutlineMail } from "react-icons/hi";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ru } from 'date-fns/locale';
-import axios from 'axios';
 import { get, post } from '../../../api/ApiRoutes';
 import { IoClose } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import { TbCopy, TbChecks } from "react-icons/tb";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -38,6 +38,8 @@ const Profile = () => {
 
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
+    const [visible3, setVisible3] = useState(false);
+    const navigate = useNavigate();
 
     const handleComplete = (code) => {
         console.log("Введённый код:", code);
@@ -50,7 +52,7 @@ const Profile = () => {
     const [changePassword, setChangePassword] = useState(false)
     const [forgotPassword, setForgotPassword] = useState(false)
     const [changeInput, setChangeInput] = useState(false)
-
+    const [info, setInfo] = useState([])
 
     const [surname, setSurname] = useState("");
     const [name, setName] = useState("");
@@ -64,7 +66,7 @@ const Profile = () => {
 
     const [redirectUrl, setRedirectUrl] = useState("https://naka.kz/profile")
 
-    const [info, setInfo] = useState([])
+
     const CODE_LENGTH = 6;
     const [authentication, setAuthentication] = useState(false)
     const [values, setValues] = useState(Array(CODE_LENGTH).fill(""));
@@ -76,10 +78,17 @@ const Profile = () => {
     const [copied, setCopied] = useState(false);
     const [cood, setCood] = useState("");
     const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-         setLoading(true)
+        setLoading(true)
         const payload = {
             first_name: name,
             last_name: surname,
@@ -101,7 +110,6 @@ const Profile = () => {
                 }
             );
             toast.success("Отправлено")
-            console.log("✅ Успешно:", res.data);
             setName("");
             setSurname("");
             setPatronymic("");
@@ -109,17 +117,25 @@ const Profile = () => {
             setCountry("Кыргызстан");
             setCode("+996");
             setNumber("");
+
         } catch (err) {
             console.error("❌ Ошибка:", err.response?.data || err.message);
-        }finally{
+        } finally {
             setLoading(false)
         }
     };
 
+  
+
     const handleVerificate = async (e) => {
+        setLoading1(false)
+        setLoading2(false)
+        setLoading3(false)
         try {
             const token = localStorage.getItem("access");
-
+            setLoading1(true)
+            setLoading2(true)
+            setLoading3(true)
             const res = await post.verification({ redirect_url: redirectUrl },
                 {
                     headers: {
@@ -128,17 +144,18 @@ const Profile = () => {
                     },
                 }
             );
-
-            console.log("✅ Успешно:", res.data);
-            const formUrl = res.data?.form_url;
+            const formUrl = res.form_url;
             if (formUrl) {
                 window.location.href = formUrl;
             } else {
                 console.error("❌ form_url отсутствует в ответе");
             }
-
         } catch (err) {
             console.error("❌ Ошибка:", err.response?.data || err.message);
+        } finally {
+            setLoading1(false)
+            setLoading2(false)
+            setLoading3(false)
         }
     };
 
@@ -151,9 +168,9 @@ const Profile = () => {
             } catch (err) {
                 if (err.status === 401) {
                     toast.error("Сессия истекла, войдите снова");
+                    localStorage.removeItem("access");
                     navigate("/login");
                 } else {
-                    toast.error(err.message || "Ошибка загрузки");
                 }
             }
         };
@@ -214,7 +231,7 @@ const Profile = () => {
     const requestPhoneCode = async () => {
         const fullPhone = `${codes}${number}`;
 
-        if (number.length>1) {
+        if (number.length > 1) {
             try {
                 const token = localStorage.getItem("access");
                 const response = await post.request_phone_code({ phone: fullPhone },
@@ -226,14 +243,15 @@ const Profile = () => {
                     }
                 );
                 setConfirmError("")
-                    setCod(true);
+                setCod(true);
             } catch (error) {
+                toast.error("Ошибка при отправке кода, попробуйте позже")
                 console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
             }
-        }else{
-            
+        } else {
+
         }
-        
+
     };
 
     const handleChange = (index, e) => {
@@ -332,6 +350,83 @@ const Profile = () => {
         }
     };
 
+    const changePasswordRequest = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            toast.error("Пожалуйста, заполните все поля");
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            toast.error("Пароли не совпадают");
+            return;
+        }
+
+        const payload = {
+            old_password: oldPassword,
+            password: newPassword,
+            confirm_password: confirmPassword,
+        };
+
+        try {
+            const token = localStorage.getItem("access");
+
+            const res = await post.new_password(
+                payload,
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            toast.success("Пароль успешно изменён");
+
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+            setChangePassword(false);
+
+        } catch (err) {
+            console.error("❌ Ошибка:", err.response?.data || err.message);
+            toast.error("Ошибка при смене пароля");
+        } finally {
+            setLoading(false);
+        }
+
+    };    
+
+    useEffect(() => {
+        if (info) {
+            setName(info.first_name||"")
+            setSurname(info.last_name||"")
+            setPatronymic(info.surname||"")
+            setStartDate(info.birth_date||null)
+        }
+    }, [info]);
+
+    const detectCode = (phone) => {
+        for (const c of countryCodes) {
+            if (phone.startsWith(c.replace('+', ''))) {
+                return c;
+            }
+        }
+        return '+996';
+    };
+    
+    useEffect(() => {
+        if (info?.phone) {
+            const digits = info.phone.replace('+', '');
+            const code = detectCode(digits);
+            const nationalNumber = digits.replace(code.replace('+', ''), '');
+            setCode(code);
+            setNumber(nationalNumber);
+        }
+    }, [info]);
+
     return (
         <div className={css.parent}>
             <Header_Profile />
@@ -381,14 +476,16 @@ const Profile = () => {
                                 </div>
                                 <div className={css.osnovnoy}>
                                     <div className={css.block}>
-                                        <form className={css.vvod} onSubmit={handleSubmit}>
+                                        <form className={css.vvod} onSubmit={handleSubmit} autoComplete="on">
                                             <div className={css.inputs}>
                                                 <label>Фамилия</label>
                                                 <input
+                                                    name="last_name"
                                                     type="text"
                                                     placeholder="Введите фамилию"
                                                     value={surname}
                                                     onChange={(e) => setSurname(e.target.value)}
+                                                    autoComplete="family-name"
                                                     required
                                                 />
                                             </div>
@@ -396,10 +493,12 @@ const Profile = () => {
                                             <div className={css.inputs}>
                                                 <label>Имя</label>
                                                 <input
+                                                    name="first_name"
                                                     type="text"
                                                     placeholder="Введите имя"
                                                     value={name}
                                                     onChange={(e) => setName(e.target.value)}
+                                                    autoComplete="given-name"
                                                     required
                                                 />
                                             </div>
@@ -407,10 +506,12 @@ const Profile = () => {
                                             <div className={css.inputs}>
                                                 <label>Отчество</label>
                                                 <input
+                                                    name="patronymic"
                                                     type="text"
                                                     placeholder="Введите отчество"
                                                     value={patronymic}
                                                     onChange={(e) => setPatronymic(e.target.value)}
+                                                    autoComplete="additional-name"
                                                 />
                                             </div>
 
@@ -423,13 +524,18 @@ const Profile = () => {
                                                     dateFormat="dd.MM.yyyy"
                                                     placeholderText="ДД.ММ.ГГГГ"
                                                     className={css.datepicer}
+                                                    autoComplete="bday"
                                                 />
                                             </div>
 
                                             <div className={css.inputs}>
                                                 <label>Страна</label>
                                                 <div className={css.from}>
-                                                    <select value={country} onChange={(e) => setCountry(e.target.value)}>
+                                                    <select
+                                                        value={country}
+                                                        onChange={(e) => setCountry(e.target.value)}
+                                                        autoComplete="country-name"
+                                                    >
                                                         <option value="">Страна</option>
                                                         <option value="Кыргызстан">Кыргызстан</option>
                                                         <option value="Казакстан">Казакстан</option>
@@ -443,33 +549,44 @@ const Profile = () => {
                                                 <div className={css.phone_input}>
                                                     <div className={css.dropdown}>
                                                         <IoIosArrowDown className={css.arrow_phone} />
-                                                        <select value={codes} onChange={(e) => setCode(e.target.value)}>
+                                                        <select
+                                                            value={codes}
+                                                            onChange={(e) => setCode(e.target.value)}
+                                                            autoComplete="tel-country-code"
+                                                        >
                                                             {countryCodes.map((c) => (
-                                                                <option key={c} value={c}>{c}</option>
+                                                                <option key={c} value={c}>
+                                                                    {c}
+                                                                </option>
                                                             ))}
                                                         </select>
                                                     </div>
                                                     <input
-                                                    minLength='10'
+                                                        name="phone"
+                                                        minLength="9"
                                                         type="number"
                                                         placeholder="000 000 000"
                                                         value={number}
                                                         onChange={(e) => setNumber(e.target.value)}
+                                                        autoComplete="tel-national"
                                                     />
                                                     <button
                                                         className={confirm}
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             requestPhoneCode();
-
                                                         }}
                                                     >
                                                         Подтвердить
                                                     </button>
                                                 </div>
                                             </div>
-                                            <button className={css.submit} type='submit'>{loading ? <div className="spinner"></div> : "Сохранить"}</button>
+
+                                            <button className={css.submit} type="submit">
+                                                {loading ? <div className="spinner"></div> : "Сохранить"}
+                                            </button>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
@@ -490,7 +607,7 @@ const Profile = () => {
 
                                     <button className={css.verificate} onClick={(e) => {
                                         e.preventDefault(); handleVerificate()
-                                    }}>Пройти верификацию</button>
+                                    }}>{loading1 ? <div className='spinner'></div> : "Пройти верификацию"}</button>
                                 </div>
                                 <div className={css.block}>
                                     <h4>👤 Частное лицо</h4>
@@ -506,7 +623,7 @@ const Profile = () => {
 
                                     <button className={css.verificate} onClick={(e) => {
                                         e.preventDefault(); handleVerificate()
-                                    }}>Пройти верификацию</button>
+                                    }}>{loading2 ? <div className='spinner'></div> : "Пройти верификацию"}</button>
                                 </div>
                                 <div className={css.block}>
                                     <h4>🏢 Юридическое лицо</h4>
@@ -522,7 +639,7 @@ const Profile = () => {
 
                                     <button className={css.verificate} onClick={(e) => {
                                         e.preventDefault(); handleVerificate()
-                                    }}>Пройти верификацию</button>
+                                    }}>{loading3 ? <div className='spinner'></div> : "Пройти верификацию"}</button>
                                 </div>
 
                             </div>
@@ -544,7 +661,7 @@ const Profile = () => {
                                         <div>
                                             <h4>Личные данные</h4>
                                             <p>Email:</p>
-                                            <h5>maratovarayana00@gmail.com</h5>
+                                            <h5>{info.email}</h5>
                                             <p>Пароль:</p>
                                             <div>{Array.from({ length: 8 }).map((_, index) => (
                                                 <GoDotFill key={index} />
@@ -709,39 +826,65 @@ const Profile = () => {
                 <div className={css.overlay} onClick={() => setChangePassword(false)}>
                     <div className={css.modal} onClick={(e) => e.stopPropagation()}>
                         <h2 >Смена пароля</h2>
-                        <form className={css.form_changePassword}>
-                            <div className={css.password_wrapper}>
-                                <input type="email"
-                                    placeholder="Электронная почта"
-                                    className={css.password_input} />
-                                <span className={css.toggle_icon}> <HiOutlineMail /></span>
-                            </div>
+                        <form className={css.form_changePassword} onSubmit={changePasswordRequest}>
                             <div className={css.password_wrapper}>
                                 <input
                                     type={visible1 ? "text" : "password"}
-                                    placeholder="Пароль"
+                                    placeholder="Старый пароль"
                                     className={css.password_input}
+                                    value={oldPassword}
+                                    onChange={(e) => setOldPassword(e.target.value)}
                                 />
                                 <span className={css.toggle_icon} onClick={() => setVisible1(!visible1)}>
                                     {visible1 ? <SlEye /> : <FiEyeOff />}
                                 </span>
                             </div>
+
                             <div className={css.password_wrapper}>
                                 <input
                                     type={visible2 ? "text" : "password"}
-                                    placeholder="Пароль"
+                                    placeholder="Новый пароль"
                                     className={css.password_input}
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
                                 />
                                 <span className={css.toggle_icon} onClick={() => setVisible2(!visible2)}>
                                     {visible2 ? <SlEye /> : <FiEyeOff />}
                                 </span>
                             </div>
-                            <button className={css.change_password} onClick={() => { setChangePassword(false); setForgotPassword(true) }}>Забыли пароль?</button>
+
+                            <div className={css.password_wrapper}>
+                                <input
+                                    type={visible3 ? "text" : "password"}
+                                    placeholder="Подтвердите пароль"
+                                    className={css.password_input}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <span className={css.toggle_icon} onClick={() => setVisible3(!visible3)}>
+                                    {visible3 ? <SlEye /> : <FiEyeOff />}
+                                </span>
+                            </div>
+
+                            <button
+                                type="button"
+                                className={css.change_password}
+                                onClick={() => {
+                                    setChangePassword(false);
+                                    setForgotPassword(true);
+                                }}
+                            >
+                                Забыли пароль?
+                            </button>
+
                             <div className={css.ff}>
-                                <button onClick={() => setChangePassword(false)}>Отменить</button>
-                                <button className={css.delete_submit} onClick={() => setChangePassword(false)}>Сохранить</button>
+                                <button type="button" onClick={() => setChangePassword(false)}>Отменить</button>
+                                <button className={css.delete_submit} type="submit" disabled={loading}>
+                                    {loading ? "Сохранение..." : "Сохранить"}
+                                </button>
                             </div>
                         </form>
+
                     </div>
                 </div>,
                 document.body
@@ -826,6 +969,7 @@ const Profile = () => {
                             <div>2</div>
                             <p>Откройте Google Authenticator и добавьте новый аутентификатор, используя 16-значный ключ, который вы только что скопировали.</p>
                         </div>
+
                         <div className={css.pages}>
                             <div>3</div>
                             <p>Вернитесь и подтвердите новый аутентификатор в личном кабинете XRuby. Убедитесь, что вы завершили шаг 2, прежде чем продолжить.</p>
@@ -844,7 +988,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div className={css.ff}>
-                                <button>Отменить</button>
+                                <button onClick={() => setAuthentication(false)}>Отменить</button>
                                 <button type="submit" disabled={loading} className={css.button}>
                                     {loading ? <div className='spinner'></div> : "Отправить"}
                                 </button>

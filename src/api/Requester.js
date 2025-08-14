@@ -26,9 +26,8 @@ export const poster = async (url, data, config = {}) => {
       headers,
       ...config,
     });
-
     return response.data;
-  } catch (error) {
+  } catch (error) {  
     throw error;
   }
 };

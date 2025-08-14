@@ -21,7 +21,7 @@ export const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); // включаем лоадинг
+    setLoading(true); 
   
     try {
       const res = await post.login({ email, password });
@@ -32,7 +32,7 @@ export const Login = () => {
       setError(err.message || "Ошибка входа");
       toast.error("Неверный логин или пароль");
     } finally {
-      setLoading(false); // выключаем лоадинг в любом случае
+      setLoading(false); 
     }
   };
 
@@ -44,7 +44,8 @@ export const Login = () => {
       <div className="container">
         <div className={css.block}>
           <div className={css.header}><Header /></div>
-          <img src={favicon} alt="icon" />
+          <Link to="/"><img src={favicon} alt="icon" /></Link>
+          
           <div onClick={() => navigate(-1)} className={css.next}>
             <IoIosArrowBack />
           </div>
@@ -59,6 +60,7 @@ export const Login = () => {
                 className={css.password_input}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 required
               />
               <span className={css.toggle_icon}>
@@ -73,6 +75,7 @@ export const Login = () => {
                 className={css.password_input}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="password"
                 required
               />
               <span

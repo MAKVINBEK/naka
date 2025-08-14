@@ -2,7 +2,7 @@ import css from "./Register.module.css";
 import image from "../../../img/register.png";
 import favicon from "../../../img/svg/favicon.svg";
 import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
 import ReactDOM from "react-dom";
@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import { HiOutlineMail } from "react-icons/hi";
 import { post } from "../../../api/ApiRoutes";
 import { Header } from "../../header/Header";
+import  axios  from 'axios';
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -32,16 +33,30 @@ export const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+    
+        if (password !== confirmPassword) {
+            setError("Пароли не совпадают");
+            return;
+        }
+    
         setLoading(true);
         try {
-            await post.requester({ email, password, confirm_password: confirmPassword });
+            const response = await axios.post("https://nako.navisdevs.ru/api/auth/register/",{
+                email,
+                password,
+                confirm_password: confirmPassword
+            });
             setShowModal(true);
+            console.log(response);
         } catch (err) {
-            setError(err.message || "Произошла ошибка при регистрации");
+            console.log(err);
+            
+            setError(err.response.data.error||"Что-то пошло не так. Попробуйте позже");
         } finally {
             setLoading(false);
         }
     };
+    
 
     const handleComplete = (code) => {
         console.log("Введённый код:", code);
@@ -125,66 +140,78 @@ export const Register = () => {
             <div className="container">
                 <div className={css.block}>
                     <div className={css.header}><Header /></div>
-                    <img src={favicon} alt="icon" />
+                    <Link to="/"><img src={favicon} alt="icon" /></Link>
                     <div onClick={() => navigate(-1)} className={css.next}>
                         <IoIosArrowBack />
                     </div>
 
-                    <form className={css.form} onSubmit={handleSubmit}>
-                        <h2>Регистрация</h2>
-                        <div className={css.password_wrapper}>
-                            <input
-                                type="email"
-                                placeholder="Электронная почта"
-                                className={css.password_input}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                            <span className={css.toggle_icon}><HiOutlineMail /></span>
-                        </div>
-                        <div className={css.password_wrapper}>
-                            <input
-                                type={visible1 ? "text" : "password"}
-                                placeholder="Пароль"
-                                className={css.password_input}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <span className={css.toggle_icon} onClick={() => setVisible1(!visible1)}>
-                                {visible1 ? <FiEyeOff /> : <SlEye />}
-                            </span>
-                        </div>
-                        <div className={css.password_wrapper}>
-                            <input
-                                type={visible2 ? "text" : "password"}
-                                placeholder="Подтвердите пароль"
-                                className={css.password_input}
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
-                            <span className={css.toggle_icon} onClick={() => setVisible2(!visible2)}>
-                                {visible2 ? <FiEyeOff /> : <SlEye />}
-                            </span>
-                        </div>
-                        <label className={css.checkbox_wrapper}>
-                            <input type="checkbox" className={css.hidden_checkbox} required />
-                            <span className={css.custom_checkbox}>
-                                <svg className={css.check_icon} viewBox="0 0 24 24">
-                                    <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="2" fill="none" />
-                                </svg>
-                            </span>
-                            <span className={css.checkbox_text}>
-                                Я согласен с <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> и <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">пользовательским соглашением</a>
-                            </span>
-                        </label>
-                        {error && <p style={{ color: "red" }}>{error}</p>}
-                        <button className={css.submit} type="submit" disabled={loading}>
-                        {loading ? <div className='spinner'></div> : "Регистрация"}
-                        </button>
-                    </form>
+                    <form className={css.form} onSubmit={handleSubmit} autoComplete="on">
+    <h2>Регистрация</h2>
+
+    <div className={css.password_wrapper}>
+        <input
+            type="email"
+            placeholder="Электронная почта"
+            className={css.password_input}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+        />
+        <span className={css.toggle_icon}><HiOutlineMail /></span>
+    </div>
+
+    <div className={css.password_wrapper}>
+        <input
+        minLength="8"
+            type={visible1 ? "text" : "password"}
+            placeholder="Пароль"
+            className={css.password_input}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
+            required
+        />
+        <span className={css.toggle_icon} onClick={() => setVisible1(!visible1)}>
+            {visible1 ? <FiEyeOff /> : <SlEye />}
+        </span>
+    </div>
+
+    <div className={css.password_wrapper}>
+        <input
+        minLength="8"
+            type={visible2 ? "text" : "password"}
+            placeholder="Подтвердите пароль"
+            className={css.password_input}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            autoComplete="new-password"
+            required
+        />
+        <span className={css.toggle_icon} onClick={() => setVisible2(!visible2)}>
+            {visible2 ? <FiEyeOff /> : <SlEye />}
+        </span>
+    </div>
+
+    <label className={css.checkbox_wrapper}>
+        <input type="checkbox" className={css.hidden_checkbox} required />
+        <span className={css.custom_checkbox}>
+            <svg className={css.check_icon} viewBox="0 0 24 24">
+                <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="2" fill="none" />
+            </svg>
+        </span>
+        <span className={css.checkbox_text}>
+            Я согласен с <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> и <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">пользовательским соглашением</a>
+        </span>
+    </label>
+
+    {error && <p style={{ color: "red",marginTop:"10px", }}>{error}</p>}
+
+    <button className={css.submit} type="submit" disabled={loading}>
+        {loading ? <div className='spinner'></div> : "Регистрация"}
+    </button>
+</form>
+
                 </div>
             </div>
 

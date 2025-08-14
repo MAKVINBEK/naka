@@ -30,28 +30,26 @@ export const Latest_Exchanges = () => {
                 {fakeData.map((el, index) => (
                     <div key={index} className={css.block}>
                         <div className={css.mini_block}>
-                            <div>
+                            <div >
                                 <h5>{el.date}</h5>
                                 <p className={css.p}>{el.timeAgo}</p>
                             </div>
                             <div className={css.coin}>
                                 <img src={bitcoin} alt="" />
                             </div>
-                            <div>
+                            <div className={css.coin}> 
                                 <h6>{el.from}</h6>
-                                <p className={css.p}>{el.from}</p>
                             </div>
                         </div>
                         <div className={css.arrow}><IoMdArrowForward /></div>
                         <div className={css.mini_block}>
                             <div>
                                 <h6>{el.to}</h6>
-                                <p className={css.p}>{el.to}</p>
                             </div>
                             <div className={css.coin}>
                                 <img src={Tether} alt="" />
                             </div>
-                            <div>
+                            <div >
                                 <div className={css.gap}><h5>{el.amount}</h5> <h5>{el.to}</h5></div>
                             </div>
                         </div>

@@ -124,7 +124,7 @@ export const Header_Profile = () => {
                             ))}
                             <div className={css.line} style={lineStyle} />
                         </div>
-                        <Link to="/profile" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Личный кабенет</Link>
+                        <Link to="/profile" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Личный кабинет</Link>
                     </div>
                 </div>
 
@@ -144,7 +144,7 @@ export const Header_Profile = () => {
                             </div>
                         }
                     </div>
-                    <Link to="/profile" className={`${css.acount} ${Entrance()}`}> Личный кабенет</Link>
+                    <Link to="/profile" className={`${css.acount} ${Entrance()}`}> Личный кабинет</Link>
                 </div>
 
                 <div className={`${css.burger} ${Burgerr()}`} onClick={() => setOpen(!open)}>

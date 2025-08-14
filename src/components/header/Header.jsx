@@ -14,7 +14,7 @@ export const Header = () => {
     const location = useLocation();
     const [lineStyle, setLineStyle] = useState({});
     const menuRefs = useRef([]);
-
+    const token = localStorage.getItem("access");
     const menuItems = [
         { name: "Правила обмена", path: "/exchange_rules" },
         { name: "Партнерам", path: "/w" },
@@ -126,7 +126,7 @@ export const Header = () => {
                             ))}
                             <div className={css.line} style={lineStyle} />
                         </div>
-                        <Link to="/login" className={`${css.acount} ${css.languageclose} ${Entrance()}`}> Войти</Link>
+                        <Link to="/login" className={`${css.acount} ${css.languageclose} ${Entrance()}`}>{token ? "Личный кабинет" : "Войти"}</Link>
                     </div>
                 </div>
 
@@ -146,7 +146,7 @@ export const Header = () => {
                             </div>
                         }
                     </div>
-                    <Link to="/login" className={`${css.acount} ${Entrance()}`}> Войти</Link>
+                    <Link to="/login" className={`${css.acount} ${Entrance()}`}>{token ? "Личный кабинет" : "Войти"}</Link>
                 </div>
 
                 <div className={`${css.burger} ${Burgerr()}`} onClick={() => setOpen(!open)}>

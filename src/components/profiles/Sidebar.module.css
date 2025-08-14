@@ -14,7 +14,7 @@
 }
 
 .open{
-    width: 155px;
+    width: 115px;
 }
 
 .open p{
@@ -24,6 +24,20 @@
     display: none;
 }
 
+.open .menu a{
+    gap: 0px;
+    margin-left: 25px;
+    margin-right: 25px;
+    width: 62px;
+}
+
+.open .collapse{
+    margin-left: 25px;
+}
+
+.open .user{
+    margin-left: 25px;
+}
 .user{
     display: flex;
     align-items: center;
@@ -32,6 +46,7 @@
     margin-bottom: 20px;
     margin-left: 50px;
     margin-right: 25px;
+    transition: 0.3s ease;
 }
 
 .user img{

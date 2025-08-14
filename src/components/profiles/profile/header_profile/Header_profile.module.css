@@ -59,8 +59,8 @@
     position: relative;
     text-decoration: none;
     color: var(--color-ffffff);
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 500;
     padding: 10px 0;
     white-space: nowrap;
 }
@@ -159,8 +159,8 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 500;
     color: #ffffff;
     transition: 0.3s ease;
     white-space: nowrap;
