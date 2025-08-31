@@ -17,7 +17,7 @@ import { get, post } from '../../../api/ApiRoutes';
 import { IoClose } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import { TbCopy, TbChecks } from "react-icons/tb";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -166,6 +166,8 @@ const Profile = () => {
                 const data = await get.personalInfo();
                 setInfo(data)
             } catch (err) {
+                console.log(err);
+                
                 if (err.status === 401) {
                     toast.error("Сессия истекла, войдите снова");
                     localStorage.removeItem("access");
@@ -213,11 +215,8 @@ const Profile = () => {
             toast.success('Ваш номер успешно потверждено')
             setConfirmError('');
         } catch (err) {
-            console.error("Ошибка подтверждения:", err);
-            console.error("Ответ сервера:", err.response?.data);
-
             setConfirmError(
-                err.response?.data?.detail || "Неверный код"
+                err.code[0] || "Неверный код"
             );
 
             setValues(Array(CODE_LENGTH).fill(""));
@@ -246,7 +245,7 @@ const Profile = () => {
                 setCod(true);
             } catch (error) {
                 toast.error("Ошибка при отправке кода, попробуйте позже")
-                console.error("❌ Ошибка при отправке кода:", error.response?.data || error.message);
+                console.error(error.response?.data || error.message||"❌ Ошибка при отправке кода:");
             }
         } else {
 
@@ -344,7 +343,10 @@ const Profile = () => {
             setAuthentication(false)
             setCood("")
         } catch (error) {
-            toast.error(error.response?.data?.error);
+            if(error.status == 400){
+                toast.error("Неверный код");
+            }
+            setCood("")
         } finally {
             setLoading(false);
         }
@@ -637,9 +639,7 @@ const Profile = () => {
                                     <h5>Требования</h5>
                                     <p>📄 Учредительные документы <br /> 📧 Корпоративная почта <br /> 🏦 Банковские реквизиты <br /> 📜 Подписание договора</p>
 
-                                    <button className={css.verificate} onClick={(e) => {
-                                        e.preventDefault(); handleVerificate()
-                                    }}>{loading3 ? <div className='spinner'></div> : "Пройти верификацию"}</button>
+                                    <Link to="/verification" className={css.verificate} >{loading3 ? <div className='spinner'></div> : "Пройти верификацию"}</Link>
                                 </div>
 
                             </div>
@@ -679,7 +679,7 @@ const Profile = () => {
                                         <h4>Настройки безопасности</h4>
                                         <div className={css.fleex}>
                                             <label className={css.switch}>
-                                                <input type="checkbox" />
+                                                <input type="checkbox" defaultChecked={true}/>
                                                 <span className={css.slider}></span>
                                             </label>
                                             <p>Всплывающие уведомления в личном кабинете</p>
@@ -705,14 +705,14 @@ const Profile = () => {
                                         </div>
                                         <div className={css.fleex}>
                                             <label className={css.switch}>
-                                                <input type="checkbox" />
+                                                <input type="checkbox" defaultChecked={true}/>
                                                 <span className={css.slider}></span>
                                             </label>
                                             <p>Уведомлять о выводе средств с кошелька</p>
                                         </div>
                                         <div className={css.fleex}>
                                             <label className={css.switch}>
-                                                <input type="checkbox" />
+                                                <input type="checkbox" defaultChecked={true}/>
                                                 <span className={css.slider}></span>
                                             </label>
                                             <p>Уведомлять о входе в личный кабенет </p>

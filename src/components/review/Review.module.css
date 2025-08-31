@@ -177,6 +177,7 @@
 .modal_button {
     width: 100%;
     height: 50px;
+    max-height: 50px;
     background: #03A39E;
     color: white;
     border: none;

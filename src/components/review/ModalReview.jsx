@@ -26,12 +26,11 @@ const ReviewModal = ({ onClose}) => {
   
       toast.success("Отзыв отправлен");
     } catch (error) {
-      console.error(error);
       toast.error(
-        error.response?.data?.error || "Ошибка при отправке отзыва"
+        error.message||error.detail || "Ошибка при отправке отзыва"
       );
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
   
@@ -45,11 +44,12 @@ const ReviewModal = ({ onClose}) => {
         placeholder="Напишите отзыв о Navischange"
         value={review}
         maxLength={300}
+        minLength={40}
         onChange={(e) => setReview(e.target.value)}
         className={css.modal_textarea}
         required
       />
-      <button className={css.modal_button} type="submit">Отправить</button>
+      <button className={css.modal_button} type="submit">{loading ? <div className="spinner "></div> :<div>Отправить</div>}</button>
       </form>
     </Modal>
   );

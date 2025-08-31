@@ -29,17 +29,16 @@ export const AllNews = () => {
                 <h2 className={css.h2}>Все новости</h2>
             <div className={css.list}>
                 {data.map((el)=>(
-                    <div key={el.id} className={css.block}>
-                    <Link to={`/news/${el.slug}`} className={css.image}><img src={el.image} alt="news" /></Link>
+                    <Link to={`/news/${el.slug}`} key={el.id} className={css.block}>
+                    <div  className={css.image}><img src={el.image} alt="news" /></div>
                 <div className={css.titles}>
-                <Link to={`/news/${el.slug}`}><h3>{el.title}</h3></Link>
+                    <h3>{el.title}</h3>
                     <p>{el.content_q}</p>
                         <div className={css.flex}>
                             <h6>{el.created_at}</h6>
-                            <a href={el.url} target="_blank" rel="noopener noreferrer">Перейти..</a>
                         </div>
                 </div>
-                </div>
+                </Link>
                 ))}
             </div>
             </div>

@@ -22,12 +22,10 @@ export const poster = async (url, data, config = {}) => {
       headers["Accept"] = "application/json";
     }
 
-    const response = await api.post(url, data, {
-      headers,
-      ...config,
-    });
+    const response = await api.post(url, data,);
     return response.data;
-  } catch (error) {  
+    
+  } catch (error) {      
     throw error;
   }
 };

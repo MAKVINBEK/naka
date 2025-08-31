@@ -7,19 +7,21 @@ import { Header } from "../header/Header"
 import { Video } from "./video/videobg"
 import { News } from "../news/News"
 import { AcardionBlock } from "./acardion/Faq"
-
-import icon1 from "../../../cdn-icons/ApeCoin_3D.svg"
-import icon2 from "../../../cdn-icons/Avalanche_3D.svg"
-import icon3 from "../../../cdn-icons/Bitcoin_3D.svg"
-import icon4 from "../../../cdn-icons/EOS_3D.svg"
-import icon5 from "../../../cdn-icons/Ethereum_3D.svg"
-import icon6 from "../../../cdn-icons/Polygon_3D.svg"
-import icon7 from "../../../cdn-icons/Shiba Inu_3D 1.svg"
-import icon8 from "../../../cdn-icons/Solana_3D.svg"
-import icon9 from "../../../cdn-icons/USD Coin_3D.svg"
 import Exchenger from "./exchanger/Exchenger"
 
-const iconss =[icon7,icon2,icon3,icon4,icon5,icon6,icon1,icon8,icon9]
+const iconss =[
+    "https://38dce7f7.naka-7nv.pages.dev/ApeCoin_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/Avalanche_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/Bitcoin_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/EOS_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/Ethereum_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/Polygon_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/Shiba Inu_3D 1.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/Solana_3D.svg",
+    "https://38dce7f7.naka-7nv.pages.dev/USD Coin_3D.svg",
+    ]
+
+
 
 export const Home = ()=>{
 

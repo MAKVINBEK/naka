@@ -59,12 +59,6 @@ const Sidebar = ({close,setClose}) => {
               const data = await get.personalInfo();
               setInfo(data)
             } catch (err) {
-              if (err.status === 401) {
-                toast.error("Сессия истекла, войдите снова");
-                navigate("/login");
-              } else {
-                toast.error(err.message || "Ошибка загрузки");
-              }
             }
           };
         

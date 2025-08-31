@@ -6,6 +6,7 @@
     background-color: var(--color-dark-bg);
     position: relative;
     z-index: 10;
+    border-bottom: 1px solid var(--color-border-header);
 }
 
 .darkmode{
@@ -172,6 +173,11 @@
 
 .acount:hover {
     transform: scale(1.07);
+}
+
+.menu_hidden{
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
 @media(max-width:1045px) {

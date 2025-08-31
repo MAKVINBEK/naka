@@ -91,7 +91,7 @@ export const Header_Profile = () => {
             <div className={css.darkmode}><ThemeSwitcher/></div>
             <div className={`${css.content} container`}>
                 <Link to="/" className={css.logo}><img src={logo} alt="logo" /></Link>
-                <div className={open ? css.blur : ""}>
+                <div className={`${open ? css.blur : ""} ${css.menu_hidden}`}>
                     <div ref={menuRef} className={`${css.burgMenu} ${open ? css.close : ""}`}>
                         <div className={css.flex}>
                             <div className={`${css.burger} ${css.burgerclose}`} onClick={() => setOpen(!open)}>

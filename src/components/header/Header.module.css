@@ -3,6 +3,12 @@
     padding-top: 50px;
 }
 
+.header_border{
+    border-bottom: 1px solid #E6E6EB;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
 .parenttt{
     width: 100%;
     padding: 28px 0;
@@ -130,9 +136,9 @@
 
 .dropDown {
     position: absolute;
-    top: 100%;
-    background-color: #efefef;
-    border-radius: 10px;
+    top: calc(100% + 2px);
+    background-color: #1F2932;
+    border-radius: 15px;
     padding: 12px 10px;
     width: 100%;
     cursor: pointer;
@@ -141,6 +147,7 @@
 .dropDown div {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
 }
 
@@ -168,6 +175,11 @@
 
 .acount:hover {
     transform: scale(1.07);
+}
+
+.menu_hidden{
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
 @media(max-width:1045px) {
@@ -295,6 +307,11 @@ linear-gradient(180deg, color(display-p3 0.000 0.000 0.000) 0%, color(display-p3
 
     .parent {
         padding-top: 20px;
+    }
+
+    .header_border{
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
     .parenttt{

@@ -1,8 +1,9 @@
+// src/components/loginpersonalprofile/register/Register.jsx
 import css from "./Register.module.css";
 import image from "../../../img/register.png";
 import favicon from "../../../img/svg/favicon.svg";
 import { IoIosArrowBack } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
 import ReactDOM from "react-dom";
@@ -10,10 +11,11 @@ import { useState, useRef, useEffect } from "react";
 import { HiOutlineMail } from "react-icons/hi";
 import { post } from "../../../api/ApiRoutes";
 import { Header } from "../../header/Header";
-import  axios  from 'axios';
+import axios from "axios";
 
 export const Register = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
@@ -33,33 +35,25 @@ export const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-    
+
         if (password !== confirmPassword) {
             setError("Пароли не совпадают");
             return;
         }
-    
+
         setLoading(true);
         try {
-            const response = await axios.post("https://nako.navisdevs.ru/api/auth/register/",{
+            const response = await post.requester({
                 email,
                 password,
                 confirm_password: confirmPassword
             });
             setShowModal(true);
-            console.log(response);
         } catch (err) {
-            console.log(err);
-            
-            setError(err.response.data.error||"Что-то пошло не так. Попробуйте позже");
+            setError(err.error || "Что-то пошло не так. Попробуйте позже");
         } finally {
             setLoading(false);
         }
-    };
-    
-
-    const handleComplete = (code) => {
-        console.log("Введённый код:", code);
     };
 
     useEffect(() => {
@@ -67,6 +61,7 @@ export const Register = () => {
         if (codeStr.length === CODE_LENGTH && !values.includes("")) {
             confirmCode(codeStr);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values]);
 
     const confirmCode = async (code) => {
@@ -74,8 +69,32 @@ export const Register = () => {
         setConfirmError("");
         try {
             const res = await post.confirmCode({ email, code });
-            localStorage.setItem("access",res.token);
-            navigate('/profile');
+            // получаем токен
+            const token = res?.token ?? res?.data?.token ?? res;
+            if (!token) throw new Error("Токен не получен");
+
+            localStorage.setItem("access", token);
+
+            // Если при регистрации был intent создать заявку
+            const { returnTo, payload } = location.state || {};
+            if (returnTo === "create_app" && payload) {
+                try {
+                    const headers = { Authorization: `Token ${token}` };
+                    const resp = await axios.post("https://nako.navisdevs.ru/api/v4/applications-history/", payload, { headers });
+                    navigate("/payment_step", { state: { application: resp.data }, replace: true });
+                    return;
+                } catch (err) {
+                    console.error("Ошибка создания заявки после регистрации:", err);
+                    // если не удалось — просто переходим в профиль, пользователь всё равно залогинен
+                }
+            }
+
+            // обычное поведение
+            if (returnTo) {
+                navigate(returnTo, { replace: true });
+            } else {
+                navigate('/profile');
+            }
         } catch (err) {
             setConfirmError('Неверный код');
             setValues(Array(CODE_LENGTH).fill(""));
@@ -146,71 +165,71 @@ export const Register = () => {
                     </div>
 
                     <form className={css.form} onSubmit={handleSubmit} autoComplete="on">
-    <h2>Регистрация</h2>
+                        <h2>Регистрация</h2>
 
-    <div className={css.password_wrapper}>
-        <input
-            type="email"
-            placeholder="Электронная почта"
-            className={css.password_input}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            required
-        />
-        <span className={css.toggle_icon}><HiOutlineMail /></span>
-    </div>
+                        <div className={css.password_wrapper}>
+                            <input
+                                type="email"
+                                placeholder="Электронная почта"
+                                className={css.password_input}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                autoComplete="email"
+                                required
+                            />
+                            <span className={css.toggle_icon}><HiOutlineMail /></span>
+                        </div>
 
-    <div className={css.password_wrapper}>
-        <input
-        minLength="8"
-            type={visible1 ? "text" : "password"}
-            placeholder="Пароль"
-            className={css.password_input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-        />
-        <span className={css.toggle_icon} onClick={() => setVisible1(!visible1)}>
-            {visible1 ? <FiEyeOff /> : <SlEye />}
-        </span>
-    </div>
+                        <div className={css.password_wrapper}>
+                            <input
+                                minLength="8"
+                                type={visible1 ? "text" : "password"}
+                                placeholder="Пароль"
+                                className={css.password_input}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                autoComplete="new-password"
+                                required
+                            />
+                            <span className={css.toggle_icon} onClick={() => setVisible1(!visible1)}>
+                                {visible1 ? <FiEyeOff /> : <SlEye />}
+                            </span>
+                        </div>
 
-    <div className={css.password_wrapper}>
-        <input
-        minLength="8"
-            type={visible2 ? "text" : "password"}
-            placeholder="Подтвердите пароль"
-            className={css.password_input}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-        />
-        <span className={css.toggle_icon} onClick={() => setVisible2(!visible2)}>
-            {visible2 ? <FiEyeOff /> : <SlEye />}
-        </span>
-    </div>
+                        <div className={css.password_wrapper}>
+                            <input
+                                minLength="8"
+                                type={visible2 ? "text" : "password"}
+                                placeholder="Подтвердите пароль"
+                                className={css.password_input}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                autoComplete="new-password"
+                                required
+                            />
+                            <span className={css.toggle_icon} onClick={() => setVisible2(!visible2)}>
+                                {visible2 ? <FiEyeOff /> : <SlEye />}
+                            </span>
+                        </div>
 
-    <label className={css.checkbox_wrapper}>
-        <input type="checkbox" className={css.hidden_checkbox} required />
-        <span className={css.custom_checkbox}>
-            <svg className={css.check_icon} viewBox="0 0 24 24">
-                <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="2" fill="none" />
-            </svg>
-        </span>
-        <span className={css.checkbox_text}>
-            Я согласен с <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> и <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">пользовательским соглашением</a>
-        </span>
-    </label>
+                        <label className={css.checkbox_wrapper}>
+                            <input type="checkbox" className={css.hidden_checkbox} required />
+                            <span className={css.custom_checkbox}>
+                                <svg className={css.check_icon} viewBox="0 0 24 24">
+                                    <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="2" fill="none" />
+                                </svg>
+                            </span>
+                            <span className={css.checkbox_text}>
+                                Я согласен с <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> и <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">пользовательским соглашением</a>
+                            </span>
+                        </label>
 
-    {error && <p style={{ color: "red",marginTop:"10px", }}>{error}</p>}
+                        {error && <p style={{ color: "red", marginTop: "10px", }}>{error}</p>}
 
-    <button className={css.submit} type="submit" disabled={loading}>
-        {loading ? <div className='spinner'></div> : "Регистрация"}
-    </button>
-</form>
+                        <button className={css.submit} type="submit" disabled={loading}>
+                            {loading ? <div className='spinner'></div> : "Регистрация"}
+                        </button>
+                    </form>
 
                 </div>
             </div>
@@ -239,9 +258,9 @@ export const Register = () => {
                         {confirmError && <p style={{ color: 'red', marginBottom: '0px', }}>{confirmError}</p>}
                         {confirmLoading && <p>Проверка кода...</p>}
                         <div className={css.eshe}>
-                           <button className={css.eshe_submit} onClick={handleResend} disabled={confirmLoading}>
-                            Отправить еще раз
-                        </button> 
+                            <button className={css.eshe_submit} onClick={handleResend} disabled={confirmLoading}>
+                                Отправить еще раз
+                            </button>
                         </div>
                     </div>
                 </div>,

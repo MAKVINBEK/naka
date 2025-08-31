@@ -1,8 +1,9 @@
-import css from "./register/Register.module.css";
+// src/components/loginpersonalprofile/Login.jsx
+import css from "./register/Register.module.css"; // у тебя текущий путь
 import image from "../../img/register.png";
 import favicon from "../../img/svg/favicon.svg";
 import { IoIosArrowBack } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FiEyeOff } from "react-icons/fi";
 import { SlEye } from "react-icons/sl";
 import { useState } from "react";
@@ -10,9 +11,12 @@ import { HiOutlineMail } from "react-icons/hi";
 import { Header } from "../header/Header";
 import { post } from "../../api/ApiRoutes";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [visible1, setVisible1] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,18 +25,49 @@ export const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); 
-  
+    setLoading(true);
+    setError("");
+
     try {
+      // Используем твой helper post.login
       const res = await post.login({ email, password });
-      localStorage.setItem("access", res.token);
-      console.log(res);
-      navigate("/profile");
+      // ожидаем res.token
+      const token = res?.token ?? res?.data?.token ?? res;
+      if (!token) throw new Error("Токен не получен");
+
+      localStorage.setItem("access", token);
+
+      // Если нас вернул Exchenger с intent создать заявку
+      const { returnTo, payload } = location.state || {};
+
+      if (returnTo === "create_app" && payload) {
+        // сразу создаём заявку от имени пользователя
+        try {
+          const headers = { Authorization: `Token ${token}` };
+          const resp = await axios.post("https://nako.navisdevs.ru/api/v4/applications-history/", payload, { headers });
+          // переходим на payment_step с application
+          navigate("/payment_step", { state: { application: resp.data }, replace: true });
+          return;
+        } catch (err) {
+          console.error("Ошибка создания заявки после логина:", err);
+          toast.error("Не удалось создать заявку после входа. Попробуйте ещё раз.");
+          // fallthrough -> дальше нормальная навигация
+        }
+      }
+
+      // обычный возврат
+      if (returnTo) {
+        navigate(returnTo, { replace: true });
+      } else {
+        navigate("/profile");
+      }
     } catch (err) {
-      setError(err.message || "Ошибка входа");
-      toast.error("Неверный логин или пароль");
+      console.error(err);
+      const msg = err?.errors || err?.message || "Неверный логин или пароль";
+      toast.error(msg);
+      setError(msg);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -45,7 +80,7 @@ export const Login = () => {
         <div className={css.block}>
           <div className={css.header}><Header /></div>
           <Link to="/"><img src={favicon} alt="icon" /></Link>
-          
+
           <div onClick={() => navigate(-1)} className={css.next}>
             <IoIosArrowBack />
           </div>
@@ -75,7 +110,7 @@ export const Login = () => {
                 className={css.password_input}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="password"
+                autoComplete="current-password"
                 required
               />
               <span
@@ -90,12 +125,20 @@ export const Login = () => {
               Забыли пароль?
             </Link>
 
-            <button type="submit" className={css.submit}>{loading ? <div className='spinner'></div> : "Далее"}</button>
+            {error && (
+              <p style={{ color: "red", marginTop: "10px" }}>
+                {error}
+              </p>
+            )}
+
+            <button type="submit" className={css.submit} disabled={loading}>
+              {loading ? <div className='spinner'></div> : "Далее"}
+            </button>
 
             <button
               type="button"
               className={css.moreno_account}
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/register", { state: location.state })}
             >
               Еще нет аккаунта?
             </button>

@@ -17,7 +17,11 @@ api.interceptors.response.use(
   (error) => {
     return Promise.reject({
       status: error.response?.status,
-      message: error.response?.data?.detail || error.message,
+      ...error.response?.data, // прокидываем все поля от сервера
+      message:
+        error.response?.data?.message ||
+        error.response?.data?.detail ||
+        error.message,
     });
   }
 );

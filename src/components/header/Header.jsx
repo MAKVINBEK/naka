@@ -51,7 +51,6 @@ export const Header = () => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setLanguage(false);
                 setOpen(false)
             }
         };
@@ -59,7 +58,7 @@ export const Header = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [setLanguage, setOpen]);
+    }, [ setOpen]);
 
     const locations = useLocation();
 
@@ -71,10 +70,6 @@ export const Header = () => {
             locations.pathname.startsWith('/news/')||
             locations.pathname.startsWith('/exchange_rules')||
             locations.pathname.startsWith('/contacts')||
-            locations.pathname.startsWith('/registration')||
-            locations.pathname.startsWith('/login')||
-            locations.pathname.startsWith('/forgot_your_password')||
-            locations.pathname.startsWith('/new_password')||
             locations.pathname.startsWith('/terms-of-service')
     };
 ``
@@ -82,6 +77,7 @@ export const Header = () => {
     const Langtop = () => isRestPage() ? css.blockOne_rest : 'header-default';
     const Entrance = () => isRestPage() ? css.acount_rest : 'header-default';
     const Burgerr = () => isRestPage() ? css.burgerr : 'header-default';
+    const Header_Border = () => isRestPage() ? css.header_border : 'header-default';
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "auto";
         return () => {
@@ -90,10 +86,10 @@ export const Header = () => {
     }, [open]);
 
     return (
-        <div className={css.parent}>
+        <div className={`${css.parent} ${Header_Border()}`}>
             <div className={`${css.content} container`}>
                 <Link to="/" className={css.logo}><img src={logo} alt="logo" /></Link>
-                <div className={open ? css.blur : ""}>
+                <div className={`${open ? css.blur : ""} ${css.menu_hidden}`}>
                     <div ref={menuRef} className={`${css.burgMenu} ${open ? css.close : ""}`}>
                         <div className={css.flex}>
                             <div className={`${css.burger} ${css.burgerclose}`} onClick={() => setOpen(!open)}>
